@@ -22,6 +22,7 @@
     Wallet
     <input type="text" name="wallet_pubkey">
     <button class="btn btn-success" id="btn-submit">Submit</button>
+    <span class="reg-status"></span>
 
     <br>
     <br>
@@ -55,7 +56,7 @@
         var wallet_pubkey = $("input[name=wallet_pubkey]").val();
 
         $.ajax({
-          url: 'https://api.komoverse.io/v1/register',
+          url: '{{ url('/') }}/v1/register',
           type: 'POST',
           dataType: 'json',
           data: {
@@ -65,9 +66,9 @@
             wallet_pubkey: wallet_pubkey,
           },
         })
-        .done(function(result) {
+        .always(function(result) {
           console.log(result);
-          $('.showajax').html(result);
+          $('.reg-status').text(result.status);
         });
         
       });
@@ -77,7 +78,7 @@
         var password = $("input[name=gpassword]").val();
         console.log(komo_username + " " + password);
         $.ajax({
-          url: 'https://api.komoverse.io/v1/login',
+          url: '{{ url('/') }}/v1/login',
           type: 'POST',
           dataType: 'json',
           data: {
@@ -87,9 +88,11 @@
         })
         .always(function(result) {
           console.log(result);
-          $('input[name=playfab_id]').val(result.playfab_id);
-          $('input[name=session_ticket]').val(result.session_ticket);
-          getDisplayName();
+          if (result.status == "Login Success") {
+            $('input[name=playfab_id]').val(result.playfab_id);
+            $('input[name=session_ticket]').val(result.session_ticket);
+            getDisplayName();
+          }
         });
         
       });
@@ -98,7 +101,7 @@
         var playfab_id = $("input[name=playfab_id]").val();
         var display_name = $("input[name=display_name]").val();
         $.ajax({
-          url: 'https://api.komoverse.io/v1/change-display-name',
+          url: '{{ url('/') }}/v1/change-display-name',
           type: 'POST',
           dataType: 'json',
           data: {
@@ -116,7 +119,7 @@
       function getDisplayName() {
         var playfab_id = $("input[name=playfab_id]").val();
         $.ajax({
-          url: 'https://api.komoverse.io/v1/account-info',
+          url: '{{ url('/') }}/v1/account-info',
           type: 'POST',
           dataType: 'json',
           data: {

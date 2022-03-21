@@ -81,8 +81,32 @@ class APIController extends Controller
                 ];
             }
             echo json_encode($response);
+            exit;
         } catch (Exception $e) {
             echo json_encode($e);
+            exit;
+        }
+    }
+
+    function setInitialDisplayName($session_ticket, $display_name) {
+        try {
+            $data = [
+                "DisplayName" => $display_name,
+            ];
+            $result = $this->createCURL("Client/UpdateUserTitleDisplayName", "X-Authorization: ".$session_ticket, $data);
+            if ($result) {
+                $response = [
+                    "status" => "Change Success",
+                    "display_name" => $result->data->DisplayName,
+                ];
+            } else {
+                $response = [
+                    "status" => "Change Failed",
+                ];
+            }
+            return true;
+        } catch (Exception $e) {
+            return false;
         }
     }
 
@@ -101,9 +125,9 @@ class APIController extends Controller
                     $session_ticket = $playfab->data->SessionTicket;
                     // Change PLayfab Display Name
                     try {
-                        $this->changeDisplayName($session_ticket, $req->komo_username);
+                        $this->setInitialDisplayName($session_ticket, $req->komo_username);
                     } catch (Exception $e) {
-                        $this->changeDisplayName($session_ticket, $playfab_id);
+                        $this->setInitialDisplayName($session_ticket, $playfab_id);
                     }
 
                     // Save to KOMO Database
@@ -120,9 +144,11 @@ class APIController extends Controller
             }
             // Return registration result
             echo json_encode($response);
+            exit;
 
         } catch (Exception $e) {
             echo json_encode($e);   
+            exit;
         }
     }
 
@@ -155,9 +181,11 @@ class APIController extends Controller
             }
 
             echo json_encode($response);
+            exit;
             
         } catch (Exception $e) {
             echo json_encode($e);
+            exit;
         }
     }
 
@@ -168,8 +196,10 @@ class APIController extends Controller
             ];
             $result = $this->createCURL("Admin/GetUserAccountInfo", "X-SecretKey: ".$this->SecretKey, $data);
             echo json_encode($result);
+            exit;
         } catch (Exception $e) {
             echo json_encode($result);
+            exit;
         }
     }
 }
