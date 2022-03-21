@@ -23,6 +23,10 @@ Route::get('docs', function(){
     return view('documentation');
 });
 
+Route::get('test', function(){ 
+    return view('test');
+});
+
 Route::prefix('v1')->group(function(){
     Route::post('register', [APIController::class, 'register']);
     Route::post('login', [APIController::class, 'login']);
