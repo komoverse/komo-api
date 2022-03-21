@@ -120,9 +120,7 @@
                     <tr>
                         <td colspan="2">
                             if login success: 
-                            <br>status: Login Success
-                            <br>playfab_id: <i>"928B2AFAC3908B36"</i>
-                            <br>session_ticket: <i>"928B2AFAC3908B36--EFCD5D2250396B18-D8BE8-8DA04D7FB30379B-Eaa+G4QEgGBxnHkjn3y4DeIACPScFwECuuC2G3jYItM="</i>
+                            <br>Playfab LoginWithCustomId response
                             <br><br>if login failed: <br>
                             status: KOMO Username Not Found, Wrong KOMO Password, Connection to Playfab Failed
                         </td>

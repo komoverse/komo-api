@@ -95,16 +95,10 @@ class APIController extends Controller
             ];
             $result = $this->createCURL("Client/UpdateUserTitleDisplayName", "X-Authorization: ".$session_ticket, $data);
             if ($result) {
-                $response = [
-                    "status" => "Change Success",
-                    "display_name" => $result->data->DisplayName,
-                ];
+                return true;
             } else {
-                $response = [
-                    "status" => "Change Failed",
-                ];
+                return false;
             }
-            return true;
         } catch (Exception $e) {
             return false;
         }
@@ -159,30 +153,33 @@ class APIController extends Controller
                 if ($userdata->password == md5($req->password.$userdata->salt)) {
                     $playfab = $this->loginWithCustomID($req->komo_username);
                     if ($playfab) {
-                        $response = [
-                            'status' => 'Login Success',
-                            'playfab_id' => $playfab->data->PlayFabId,
-                            'session_ticket' => $playfab->data->SessionTicket,
-                        ];
+                        // $response = [
+                        //     'status' => 'Login Success',
+                        //     'playfab_id' => $playfab->data->PlayFabId,
+                        //     'session_ticket' => $playfab->data->SessionTicket,
+                        // ];
+                        echo json_encode($playfab);
                     } else {
                         $response = [
                             'status' => 'Connection to Playfab Failed',
                         ];
+                        echo json_encode($e);
+                        exit;
                     }
                 } else {
                     $response = [
                         'status' => 'Wrong KOMO Password',
                     ];
+                    echo json_encode($e);
+                    exit;
                 }
             } else {
                 $response = [
                     'status' => 'KOMO Username Not Found',
                 ];
+                echo json_encode($e);
+                exit;
             }
-
-            echo json_encode($response);
-            exit;
-            
         } catch (Exception $e) {
             echo json_encode($e);
             exit;

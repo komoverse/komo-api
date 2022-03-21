@@ -35,6 +35,8 @@
     <br>
     <br>
     <p>Change Display Name</p>
+    Entity Token
+    <input type="text" name="entity_token">
     Session Ticket
     <input type="text" name="session_ticket">
     Playfab ID
@@ -88,9 +90,10 @@
         })
         .always(function(result) {
           console.log(result);
-          if (result.status == "Login Success") {
-            $('input[name=playfab_id]').val(result.playfab_id);
-            $('input[name=session_ticket]').val(result.session_ticket);
+          if (result.code == 200) {
+            $('input[name=entity_token]').val(result.data.EntityToken.EntityToken);
+            $('input[name=playfab_id]').val(result.data.PlayFabId);
+            $('input[name=session_ticket]').val(result.data.SessionTicket);
             getDisplayName();
           }
         });
