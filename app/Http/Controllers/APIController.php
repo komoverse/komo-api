@@ -89,19 +89,27 @@ class APIController extends Controller
     }
 
     function setInitialDisplayName($session_ticket, $display_name) {
-        try {
-            $data = [
-                "DisplayName" => $display_name,
-            ];
-            $result = $this->createCURL("Client/UpdateUserTitleDisplayName", "X-Authorization: ".$session_ticket, $data);
-            if ($result) {
-                return true;
+        $looper = true;
+        $init_display_name = $display_name;
+        $counter = 0;
+        while ($looper == true) {
+            if ($counter > 0) {
+                $try_display_name = $init_display_name.$counter;
             } else {
-                return false;
+                $try_display_name = $init_display_name;
             }
-        } catch (Exception $e) {
-            return false;
+            $data = [
+                "DisplayName" => $try_display_name,
+            ];
+            $exec_display_name = $this->createCURL("Client/UpdateUserTitleDisplayName", "X-Authorization: ".$session_ticket, $data);
+            if ($exec_display_name->code == 400) {
+                $counter++;
+            } else {
+                echo $exec_display_name->code;
+                $looper = false;
+            }
         }
+        return true;
     }
 
     function register(Request $req) {
@@ -117,12 +125,8 @@ class APIController extends Controller
                 if ($playfab = $this->registerPlayfabUser($req->komo_username)) {
                     $playfab_id = $playfab->data->PlayFabId;
                     $session_ticket = $playfab->data->SessionTicket;
-                    // Change PLayfab Display Name
-                    try {
-                        $this->setInitialDisplayName($session_ticket, $req->komo_username);
-                    } catch (Exception $e) {
-                        $this->setInitialDisplayName($session_ticket, $playfab_id);
-                    }
+                    // Set Initial Display Name
+                    $this->setInitialDisplayName($session_ticket, $req->komo_username);
 
                     // Save to KOMO Database
                     if (APIModel::registerKOMO($req, $playfab_id)) {
@@ -153,11 +157,6 @@ class APIController extends Controller
                 if ($userdata->password == md5($req->password.$userdata->salt)) {
                     $playfab = $this->loginWithCustomID($req->komo_username);
                     if ($playfab) {
-                        // $response = [
-                        //     'status' => 'Login Success',
-                        //     'playfab_id' => $playfab->data->PlayFabId,
-                        //     'session_ticket' => $playfab->data->SessionTicket,
-                        // ];
                         echo json_encode($playfab);
                     } else {
                         $response = [
