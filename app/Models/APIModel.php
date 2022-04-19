@@ -30,4 +30,14 @@ class APIModel extends Model
                     ->first();
         return $result;
     }
+
+    static function setNewPassword($req, $salt) {
+        var_dump($salt);
+        $result = DB::table('tb_account')
+                    ->where(DB::raw('BINARY `komo_username`'), '=', $req->komo_username)
+                    ->update([
+                        'password' => md5($req->new_password.$salt),
+                    ]);
+        return $result;
+    }
 }

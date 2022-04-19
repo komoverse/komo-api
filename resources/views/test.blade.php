@@ -32,6 +32,9 @@
     Password
     <input type="password" name="gpassword">
     <button class="btn btn-success" id="btn-login">Game Login</button>
+    Change Password
+    <input type="password" name="new_password">
+    <button class="btn btn-success" id="btn-change-pass">Change Password</button>
     <br>
     <br>
     <p>Change Display Name</p>
@@ -45,6 +48,14 @@
     <input type="text" name="display_name">
     <button class="btn btn-success" id="btn-change-name">Change Game Display Name</button>
     <br>
+    <br>
+    <p>Grant Items</p>
+    Items
+    <input type="text" name="item_id">
+    <button class="btn btn-success" id="btn-grant-items">Grant Items</button>
+
+
+
     <span class="showajax"></span>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -100,6 +111,27 @@
         
       });
 
+      $("#btn-change-pass").on('click', function() {
+        var komo_username = $("input[name=gkomo_username]").val();
+        var password = $("input[name=gpassword]").val();
+        var new_password = $("input[name=new_password]").val();
+        console.log(komo_username+password+new_password);
+        $.ajax({
+          url: '{{ url('/') }}/v1/change-password',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            komo_username: komo_username,
+            old_password: password,
+            new_password: new_password,
+          },
+        })
+        .always(function(result) {
+          console.log(result);
+        });
+
+      });
+
       $("#btn-change-name").on('click', function(){
         var playfab_id = $("input[name=playfab_id]").val();
         var display_name = $("input[name=display_name]").val();
@@ -110,6 +142,26 @@
           data: {
             playfab_id: playfab_id,
             display_name: display_name,
+          },
+        })
+        .always(function(result) {
+          console.log(result);
+          $('.showajax').html(result);
+        });
+        
+      });
+
+
+      $("#btn-grant-items").on('click', function(){
+        var playfab_id = $("input[name=playfab_id]").val();
+        var item_id = $("input[name=item_id]").val();
+        $.ajax({
+          url: '{{ url('/') }}/v1/add-item-to-inventory',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            playfab_id: playfab_id,
+            item_id: item_id,
           },
         })
         .always(function(result) {

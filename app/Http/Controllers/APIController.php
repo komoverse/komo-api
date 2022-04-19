@@ -162,21 +162,21 @@ class APIController extends Controller
                         $response = [
                             'status' => 'Connection to Playfab Failed',
                         ];
-                        echo json_encode($e);
+                        echo json_encode($response);
                         exit;
                     }
                 } else {
                     $response = [
                         'status' => 'Wrong KOMO Password',
                     ];
-                    echo json_encode($e);
+                    echo json_encode($response);
                     exit;
                 }
             } else {
                 $response = [
                     'status' => 'KOMO Username Not Found',
                 ];
-                echo json_encode($e);
+                echo json_encode($response);
                 exit;
             }
         } catch (Exception $e) {
@@ -194,6 +194,46 @@ class APIController extends Controller
             echo json_encode($result);
             exit;
         } catch (Exception $e) {
+            echo json_encode($e);
+            exit;
+        }
+    }
+
+    function addItemToInventory(Request $req) {
+        try {
+            $data = [
+                "ItemIds" => array($req->item_id),
+                "PlayFabId" => $req->playfab_id,
+            ];
+            $result = $this->createCURL("Server/GrantItemsToUser", "X-SecretKey: ".$this->SecretKey, $data);
+            echo json_encode($result);
+            exit;
+        } catch (Exception $e) {
+            echo json_encode($e);
+            exit;
+        }
+    }
+
+    function changeKOMOPassword(Request $req) {
+        $userdata = APIModel::getUserFromUsername($req->komo_username);
+        if (md5($req->old_password.$userdata->salt) == $userdata->password) {
+            if (APIModel::setNewPassword($req, $userdata->salt)) {
+                $result = [
+                    'status' => 'New Password Set',
+                ];
+                echo json_encode($result);
+                exit;
+            } else {
+                $result = [
+                    'status' => 'Failed to set new password',
+                ];
+                echo json_encode($result);
+                exit;
+            }
+        } else {
+            $result = [
+                'status' => 'Old password not match with database',
+            ];
             echo json_encode($result);
             exit;
         }

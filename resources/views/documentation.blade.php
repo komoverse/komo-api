@@ -58,7 +58,9 @@
                     <li><a href="#register">Register</a></li>
                     <li><a href="#login">Login</a></li>
                     <li><a href="#get-account-info">Get Account Info</a></li>
+                    <li><a href="#change-password">Change Password</a></li>
                     <li><a href="#change-display-name">Change Display Name</a></li>
+                    <li><a href="#add-item-to-inventory">Add Item to Inventory</a></li>
                     <li></li>
                 </ul>
             </div>
@@ -152,6 +154,38 @@
                 </table>
 
 
+                <h2 id="change-password">Change Password</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/get-account-info') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>komo_username</td>
+                        <td>String. KOMO Username.</td>
+                    </tr>
+                    <tr>
+                        <td>old_password</td>
+                        <td>String. Old password.</td>
+                    </tr>
+                    <tr>
+                        <td>new_password</td>
+                        <td>String. New password.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            status: New Password Set, Failed to set new password, Old password not match with database
+                        </td>
+                    </tr>
+                </table>
+
+
                 <h2 id="change-display-name">Change Display Name</h2>
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">
@@ -177,6 +211,34 @@
                             status: Change Success, Change Failed
                             <br>
                             display_name: New Display Name
+                        </td>
+                    </tr>
+                </table>
+
+
+                <h2 id="add-item-to-inventory">Add Item To Inventory</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/get-account-info') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>playfab_id</td>
+                        <td>String. Playfab ID.</td>
+                    </tr>
+                    <tr>
+                        <td>item_id</td>
+                        <td>String. Item ID as in Playfab.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON playfab response
                         </td>
                     </tr>
                 </table>
