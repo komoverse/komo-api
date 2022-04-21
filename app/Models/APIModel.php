@@ -32,12 +32,22 @@ class APIModel extends Model
     }
 
     static function setNewPassword($req, $salt) {
-        var_dump($salt);
         $result = DB::table('tb_account')
                     ->where(DB::raw('BINARY `komo_username`'), '=', $req->komo_username)
                     ->update([
                         'password' => md5($req->new_password.$salt),
                     ]);
         return $result;
+    }
+
+    static function saveLoginInfo($req, $ipgeo) {
+        $insert = DB::table('tb_login_info')
+                    ->insert([
+                        'komo_username' => $req->komo_username,
+                        'ip_address' => $ipgeo->ip,
+                        'country' => $ipgeo->country_name,
+                        'isp' => $ipgeo->isp,
+                    ]);
+        return $insert;
     }
 }

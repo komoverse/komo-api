@@ -205,10 +205,26 @@
           console.log(result);
           $.each(result.data.Inventory, function(index, val) {
              console.log(val);
-             $('.inventory-wrapper').append(val.ItemId + " - " + val.DisplayName + " - " + val.ItemInstanceId + "<br>");
+             $('.inventory-wrapper').append(val.ItemId + " - " + val.DisplayName + " - " + val.ItemInstanceId + "      <i onclick=\"removeInvent('"+val.ItemInstanceId+"')\">Remove</i><br>");
           });
         });
       });
+
+      function removeInvent(instance_id) {
+        var playfab_id = $("input[name=playfab_id]").val();
+        $.ajax({
+          url: '{{ url('/') }}/v1/revoke-inventory',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            playfab_id: playfab_id,
+            item_instance_id: instance_id,
+          },
+        })
+        .always(function(result) {
+          console.log(result);
+        });
+      }
     </script>
   </body>
 </html>

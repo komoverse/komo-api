@@ -61,6 +61,7 @@
                     <li><a href="#change-password">Change Password</a></li>
                     <li><a href="#change-display-name">Change Display Name</a></li>
                     <li><a href="#add-item-to-inventory">Add Item to Inventory</a></li>
+                    <li><a href="#get-inventory">Get Player Inventory</a></li>
                     <li></li>
                 </ul>
             </div>
@@ -158,7 +159,7 @@
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">
                         <td>POST</td>
-                        <td>{{ url('v1/get-account-info') }}</td>
+                        <td>{{ url('v1/change-password') }}</td>
                     </tr>
                     <tr class="request">
                         <td colspan="2">Request</td>
@@ -190,7 +191,7 @@
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">
                         <td>POST</td>
-                        <td>{{ url('v1/get-account-info') }}</td>
+                        <td>{{ url('v1/change-display-name') }}</td>
                     </tr>
                     <tr class="request">
                         <td colspan="2">Request</td>
@@ -220,7 +221,7 @@
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">
                         <td>POST</td>
-                        <td>{{ url('v1/get-account-info') }}</td>
+                        <td>{{ url('v1/add-item-to-inventory') }}</td>
                     </tr>
                     <tr class="request">
                         <td colspan="2">Request</td>
@@ -232,6 +233,28 @@
                     <tr>
                         <td>item_id</td>
                         <td>String. Item ID as in Playfab.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON playfab response
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="get-inventory">Get Player Inventory</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/get-inventory') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>playfab_id</td>
+                        <td>String. Playfab ID.</td>
                     </tr>
                     <tr class="response">
                         <td colspan="2">Response</td>

@@ -155,6 +155,13 @@ class APIController extends Controller
             $userdata = APIModel::getUserFromUsername($req->komo_username);
             if ($userdata) {
                 if ($userdata->password == md5($req->password.$userdata->salt)) {
+                    // Save login location
+                    $ipgeo = file_get_contents("https://api.iplocation.net/?ip=".$req->ip());
+                    if ($ipgeo) {
+                        APIModel::saveLoginInfo($req, $ipgeo);
+                    }
+
+                    // Login to PlayFab
                     $playfab = $this->loginWithCustomID($req->komo_username);
                     if ($playfab) {
                         echo json_encode($playfab);
@@ -184,7 +191,7 @@ class APIController extends Controller
             exit;
         }
     }
-
+    
     function getAccountInfo(Request $req) {
         try {
             $data = [
@@ -245,5 +252,20 @@ class APIController extends Controller
         ];
         $result = $this->createCURL("Server/GetUserInventory", "X-SecretKey: ".$this->SecretKey, $data);
         echo json_encode($result);
+    }
+
+    function revokeInventory(Request $req) {
+        try {
+            $data = [
+                'ItemInstanceId' => $req->item_instance_id,
+                'PlayFabId' => $req->playfab_id,
+            ];
+            $result = $this->createCURL("Server/RevokeInventoryItem", "X-SecretKey: ".$this->SecretKey, $data);
+            echo json_encode($result);
+            exit;
+        } catch (Exception $e) {
+            echo json_encode($e);
+            exit;
+        }
     }
 }
