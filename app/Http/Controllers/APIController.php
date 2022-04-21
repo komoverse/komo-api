@@ -238,4 +238,12 @@ class APIController extends Controller
             exit;
         }
     }
+
+    function getInventory(Request $req) {
+        $data = [
+            'PlayFabId' => $req->playfab_id,
+        ];
+        $result = $this->createCURL("Server/GetUserInventory", "X-SecretKey: ".$this->SecretKey, $data);
+        echo json_encode($result);
+    }
 }

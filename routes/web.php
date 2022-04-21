@@ -35,4 +35,5 @@ Route::prefix('v1')->group(function(){
     Route::post('change-password', [APIController::class, 'changeKOMOPassword']);
 
     Route::post('add-item-to-inventory', [APIController::class, 'addItemToInventory']);
+    Route::post('get-inventory', [APIController::class, 'getInventory']);
 });

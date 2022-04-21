@@ -53,6 +53,9 @@
     Items
     <input type="text" name="item_id">
     <button class="btn btn-success" id="btn-grant-items">Grant Items</button>
+    <button class="btn btn-info" id="btn-get-inventory">Get Inventory</button>
+    <br>
+    <span class="inventory-wrapper"></span>
 
 
 
@@ -185,8 +188,27 @@
           console.log(result);
           $('input[name=display_name]').val(result.data.UserInfo.TitleInfo.DisplayName);
         });
-
       }
+
+      $("#btn-get-inventory").on('click', function(){
+        $('.inventory-wrapper').html("");
+        var playfab_id = $("input[name=playfab_id]").val();
+        $.ajax({
+          url: '{{ url('/') }}/v1/get-inventory',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            playfab_id: playfab_id,
+          },
+        })
+        .always(function(result) {
+          console.log(result);
+          $.each(result.data.Inventory, function(index, val) {
+             console.log(val);
+             $('.inventory-wrapper').append(val.ItemId + " - " + val.DisplayName + " - " + val.ItemInstanceId + "<br>");
+          });
+        });
+      });
     </script>
   </body>
 </html>
