@@ -7,8 +7,14 @@ use App\Models\APIModel;
 
 class APIController extends Controller
 {
-    protected $TitleId = "D8BE8";
-    protected $SecretKey = "BHQDNJQ376PXI6OO7PYS16QNJURJEWKTR1YN9H4Y9NDXSB8WQ7";
+    protected $TitleId;
+    protected $SecretKey;
+
+    public function __construct() 
+    {
+        $this->TitleId = config('playfab.titleId');
+        $this->SecretKey = config('playfab.secretKey');
+    }
 
     function createCURL($endpoint, $header, $data) {
         $url = "https://".$this->TitleId.".playfabapi.com/".$endpoint;

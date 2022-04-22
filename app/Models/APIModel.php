@@ -41,6 +41,7 @@ class APIModel extends Model
     }
 
     static function saveLoginInfo($req, $ipgeo) {
+        $ipgeo = json_decode($ipgeo);
         $insert = DB::table('tb_login_info')
                     ->insert([
                         'komo_username' => $req->komo_username,
