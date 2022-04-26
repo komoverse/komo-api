@@ -43,7 +43,7 @@
     Session Ticket
     <input type="text" name="session_ticket">
     Playfab ID
-    <input type="text" name="playfab_id">
+    <input type="text" name="playfab_id" value="A95421A781CFEA86">
     Display Name
     <input type="text" name="display_name">
     <button class="btn btn-success" id="btn-change-name">Change Game Display Name</button>
@@ -56,6 +56,14 @@
     <button class="btn btn-info" id="btn-get-inventory">Get Inventory</button>
     <br>
     <span class="inventory-wrapper"></span>
+
+    <br>
+    <br>
+    <br>
+    Gold Amount : <span class="gold-amount">0</span> | Shard Amount : <span class="shard-amount">0</span>
+    <input type="number" name="amount">
+    <button class="btn btn-success" id="btn-add-gold">Add Gold</button>
+    <button class="btn btn-success" id="btn-substract-shard">Substract Shard</button>
 
 
 
@@ -207,6 +215,8 @@
              console.log(val);
              $('.inventory-wrapper').append(val.ItemId + " - " + val.DisplayName + " - " + val.ItemInstanceId + "      <i onclick=\"removeInvent('"+val.ItemInstanceId+"')\">Remove</i><br>");
           });
+          $('.gold-amount').html(result.data.VirtualCurrency.GD);
+          $('.shard-amount').html(result.data.VirtualCurrency.SH);
         });
       });
 
@@ -225,6 +235,48 @@
           console.log(result);
         });
       }
+
+      $("#btn-add-gold").on('click', function(){
+        var playfab_id = $("input[name=playfab_id]").val();
+        var amount = $("input[name=amount]").val();
+        console.log('add gold '+amount);
+        $.ajax({
+          url: '{{ url('/') }}/v1/add-gold',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            playfab_id: playfab_id,
+            amount: amount,
+          },
+        })
+        .always(function(result) {
+          console.log(result);
+          $('#btn-get-inventory').trigger('click');
+        });
+        
+      });
+
+
+      $("#btn-substract-shard").on('click', function(){
+        var playfab_id = $("input[name=playfab_id]").val();
+        var amount = $("input[name=amount]").val();
+        console.log('sub shard '+amount);
+        $.ajax({
+          url: '{{ url('/') }}/v1/substract-shard',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            playfab_id: playfab_id,
+            amount: amount,
+          },
+        })
+        .always(function(result) {
+          console.log(result);
+          $('#btn-get-inventory').trigger('click');
+        });
+        
+      });
+
     </script>
   </body>
 </html>

@@ -274,4 +274,36 @@ class APIController extends Controller
             exit;
         }
     }
+
+    function addGold(Request $req) {
+        try {
+            $data = [
+                'Amount' => $req->amount,
+                'PlayFabId' => $req->playfab_id,
+                'VirtualCurrency' => 'GD',
+            ];
+            $result = $this->createCURL("Server/AddUserVirtualCurrency", "X-SecretKey: ".$this->SecretKey, $data);
+            echo json_encode($result);
+            exit;
+        } catch (Exception $e) {
+            echo json_encode($e);
+            exit;
+        }
+    }
+
+    function substractShard(Request $req) {
+        try {
+            $data = [
+                'Amount' => $req->amount,
+                'PlayFabId' => $req->playfab_id,
+                'VirtualCurrency' => 'SH',
+            ];
+            $result = $this->createCURL("Server/SubtractUserVirtualCurrency", "X-SecretKey: ".$this->SecretKey, $data);
+            echo json_encode($result);
+            exit;
+        } catch (Exception $e) {
+            echo json_encode($e);
+            exit;
+        }
+    }
 }

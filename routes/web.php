@@ -38,6 +38,9 @@ Route::prefix('v1')->group(function(){
     Route::post('get-inventory', [APIController::class, 'getInventory']);
     Route::post('revoke-inventory', [APIController::class, 'revokeInventory']);
 
+    Route::post('add-gold', [APIController::class, 'addGold']);
+    Route::post('substract-shard', [APIController::class, 'substractShard']);
+
 
     // WIP
     // Server/AddUserVirtualCurrency (KOMO > gold)

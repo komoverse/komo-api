@@ -62,6 +62,9 @@
                     <li><a href="#change-display-name">Change Display Name</a></li>
                     <li><a href="#add-item-to-inventory">Add Item to Inventory</a></li>
                     <li><a href="#get-inventory">Get Player Inventory</a></li>
+                    <li><a href="#revoke-inventory">Revoke Inventory Item</a></li>
+                    <li><a href="#add-gold">Add Gold</a></li>
+                    <li><a href="#substract-shard">Substract Shard</a></li>
                     <li></li>
                 </ul>
             </div>
@@ -251,6 +254,84 @@
                     </tr>
                     <tr class="request">
                         <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>playfab_id</td>
+                        <td>String. Playfab ID.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON playfab response
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="revoke-inventory">Revoke Inventory</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/revoke-inventory') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>item_instance_id</td>
+                        <td>String. Item Instance ID.</td>
+                    </tr>
+                    <tr>
+                        <td>playfab_id</td>
+                        <td>String. Playfab ID.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON playfab response
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="add-gold">Add Gold</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/add-gold') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>amount</td>
+                        <td>Integer. Amount of Gold to be Added.</td>
+                    </tr>
+                    <tr>
+                        <td>playfab_id</td>
+                        <td>String. Playfab ID.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON playfab response
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="substract-shard">Substract Shard</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/substract-shard') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>amount</td>
+                        <td>Integer. Amount of Shard to be Substrac.t</td>
                     </tr>
                     <tr>
                         <td>playfab_id</td>
