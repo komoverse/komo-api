@@ -111,7 +111,6 @@ class APIController extends Controller
             if ($exec_display_name->code == 400) {
                 $counter++;
             } else {
-                echo $exec_display_name->code;
                 $looper = false;
             }
         }
@@ -304,6 +303,14 @@ class APIController extends Controller
         } catch (Exception $e) {
             echo json_encode($e);
             exit;
+        }
+    }
+
+    function getAllPlayer() {
+        try {
+            echo json_encode(APIModel::getAllPlayer());
+        } catch (Exception $e) {
+            echo json_encode($e);
         }
     }
 }

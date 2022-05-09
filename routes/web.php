@@ -27,12 +27,17 @@ Route::get('test', function(){
     return view('test');
 });
 
+Route::get('register', function() {
+    return view('register');
+});
+
 Route::prefix('v1')->group(function(){
     Route::post('register', [APIController::class, 'register']);
     Route::post('login', [APIController::class, 'login']);
     Route::post('change-display-name', [APIController::class, 'changeDisplayName']);
     Route::post('account-info', [APIController::class, 'getAccountInfo']);
     Route::post('change-password', [APIController::class, 'changeKOMOPassword']);
+    Route::get('player-list', [APIController::class, 'getAllPlayer']);
 
     Route::post('add-item-to-inventory', [APIController::class, 'addItemToInventory']);
     Route::post('get-inventory', [APIController::class, 'getInventory']);

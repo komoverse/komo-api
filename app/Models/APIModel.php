@@ -51,4 +51,10 @@ class APIModel extends Model
                     ]);
         return $insert;
     }
+
+    static function getAllPlayer() {
+        $result = DB::table('tb_account')
+                    ->get();
+        return $result;
+    }
 }
