@@ -57,6 +57,7 @@
                 <ul>
                     <li><a href="#register">Register</a></li>
                     <li><a href="#login">Login</a></li>
+                    <li><a href="#get-all-players">Get All Players</a></li>
                     <li><a href="#get-account-info">Get Account Info</a></li>
                     <li><a href="#change-password">Change Password</a></li>
                     <li><a href="#change-display-name">Change Display Name</a></li>
@@ -133,6 +134,22 @@
                     </tr>
                 </table>
 
+
+                <h2 id="get-all-players">Get All Players</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>GET</td>
+                        <td>{{ url('v1/player-list') }}</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON list of all player from KOMO Database
+                        </td>
+                    </tr>
+                </table>
 
                 <h2 id="get-account-info">Get Account Info</h2>
                 <table class="table table-bordered table-sm">
