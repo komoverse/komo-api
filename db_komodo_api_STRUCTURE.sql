@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 07, 2022 at 05:00 AM
+-- Generation Time: May 09, 2022 at 08:38 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -38,6 +38,20 @@ CREATE TABLE `tb_account` (
   `is_verified` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_login_info`
+--
+
+CREATE TABLE `tb_login_info` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `komo_username` varchar(50) NOT NULL,
+  `ip_address` varchar(50) NOT NULL,
+  `country` varchar(50) DEFAULT NULL,
+  `isp` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indexes for dumped tables
 --
@@ -49,6 +63,12 @@ ALTER TABLE `tb_account`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tb_login_info`
+--
+ALTER TABLE `tb_login_info`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -57,6 +77,12 @@ ALTER TABLE `tb_account`
 --
 ALTER TABLE `tb_account`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tb_login_info`
+--
+ALTER TABLE `tb_login_info`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
