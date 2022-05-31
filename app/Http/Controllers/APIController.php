@@ -7,8 +7,14 @@ use App\Models\APIModel;
 
 class APIController extends Controller
 {
-    protected $TitleId = "D8BE8";
-    protected $SecretKey = "BHQDNJQ376PXI6OO7PYS16QNJURJEWKTR1YN9H4Y9NDXSB8WQ7";
+    protected $TitleId;
+    protected $SecretKey;
+
+    public function __construct() 
+    {
+        $this->TitleId = config('playfab.titleId');
+        $this->SecretKey = config('playfab.secretKey');
+    }
 
     function createCURL($endpoint, $header, $data) {
         $url = "https://".$this->TitleId.".playfabapi.com/".$endpoint;
@@ -89,19 +95,26 @@ class APIController extends Controller
     }
 
     function setInitialDisplayName($session_ticket, $display_name) {
-        try {
-            $data = [
-                "DisplayName" => $display_name,
-            ];
-            $result = $this->createCURL("Client/UpdateUserTitleDisplayName", "X-Authorization: ".$session_ticket, $data);
-            if ($result) {
-                return true;
+        $looper = true;
+        $init_display_name = $display_name;
+        $counter = 0;
+        while ($looper == true) {
+            if ($counter > 0) {
+                $try_display_name = $init_display_name.$counter;
             } else {
-                return false;
+                $try_display_name = $init_display_name;
             }
-        } catch (Exception $e) {
-            return false;
+            $data = [
+                "DisplayName" => $try_display_name,
+            ];
+            $exec_display_name = $this->createCURL("Client/UpdateUserTitleDisplayName", "X-Authorization: ".$session_ticket, $data);
+            if ($exec_display_name->code == 400) {
+                $counter++;
+            } else {
+                $looper = false;
+            }
         }
+        return true;
     }
 
     function register(Request $req) {
@@ -117,12 +130,8 @@ class APIController extends Controller
                 if ($playfab = $this->registerPlayfabUser($req->komo_username)) {
                     $playfab_id = $playfab->data->PlayFabId;
                     $session_ticket = $playfab->data->SessionTicket;
-                    // Change PLayfab Display Name
-                    try {
-                        $this->setInitialDisplayName($session_ticket, $req->komo_username);
-                    } catch (Exception $e) {
-                        $this->setInitialDisplayName($session_ticket, $playfab_id);
-                    }
+                    // Set Initial Display Name
+                    $this->setInitialDisplayName($session_ticket, $req->komo_username);
 
                     // Save to KOMO Database
                     if (APIModel::registerKOMO($req, $playfab_id)) {
@@ -151,33 +160,35 @@ class APIController extends Controller
             $userdata = APIModel::getUserFromUsername($req->komo_username);
             if ($userdata) {
                 if ($userdata->password == md5($req->password.$userdata->salt)) {
+                    // Save login location
+                    $ipgeo = file_get_contents("https://api.iplocation.net/?ip=".$req->ip());
+                    if ($ipgeo) {
+                        APIModel::saveLoginInfo($req, $ipgeo);
+                    }
+
+                    // Login to PlayFab
                     $playfab = $this->loginWithCustomID($req->komo_username);
                     if ($playfab) {
-                        // $response = [
-                        //     'status' => 'Login Success',
-                        //     'playfab_id' => $playfab->data->PlayFabId,
-                        //     'session_ticket' => $playfab->data->SessionTicket,
-                        // ];
                         echo json_encode($playfab);
                     } else {
                         $response = [
                             'status' => 'Connection to Playfab Failed',
                         ];
-                        echo json_encode($e);
+                        echo json_encode($response);
                         exit;
                     }
                 } else {
                     $response = [
                         'status' => 'Wrong KOMO Password',
                     ];
-                    echo json_encode($e);
+                    echo json_encode($response);
                     exit;
                 }
             } else {
                 $response = [
                     'status' => 'KOMO Username Not Found',
                 ];
-                echo json_encode($e);
+                echo json_encode($response);
                 exit;
             }
         } catch (Exception $e) {
@@ -195,8 +206,140 @@ class APIController extends Controller
             echo json_encode($result);
             exit;
         } catch (Exception $e) {
+            echo json_encode($e);
+            exit;
+        }
+    }
+
+    function addItemToInventory(Request $req) {
+        try {
+            $data = [
+                "ItemIds" => array($req->item_id),
+                "PlayFabId" => $req->playfab_id,
+            ];
+            $result = $this->createCURL("Server/GrantItemsToUser", "X-SecretKey: ".$this->SecretKey, $data);
+            echo json_encode($result);
+            exit;
+        } catch (Exception $e) {
+            echo json_encode($e);
+            exit;
+        }
+    }
+
+    function changeKOMOPassword(Request $req) {
+        $userdata = APIModel::getUserFromUsername($req->komo_username);
+        if (md5($req->old_password.$userdata->salt) == $userdata->password) {
+            if (APIModel::setNewPassword($req, $userdata->salt)) {
+                $result = [
+                    'status' => 'New Password Set',
+                ];
+                echo json_encode($result);
+                exit;
+            } else {
+                $result = [
+                    'status' => 'Failed to set new password',
+                ];
+                echo json_encode($result);
+                exit;
+            }
+        } else {
+            $result = [
+                'status' => 'Old password not match with database',
+            ];
             echo json_encode($result);
             exit;
         }
+    }
+
+    function getInventory(Request $req) {
+        $data = [
+            'PlayFabId' => $req->playfab_id,
+        ];
+        $result = $this->createCURL("Server/GetUserInventory", "X-SecretKey: ".$this->SecretKey, $data);
+        echo json_encode($result);
+    }
+
+    function revokeInventory(Request $req) {
+        try {
+            $data = [
+                'ItemInstanceId' => $req->item_instance_id,
+                'PlayFabId' => $req->playfab_id,
+            ];
+            $result = $this->createCURL("Server/RevokeInventoryItem", "X-SecretKey: ".$this->SecretKey, $data);
+            echo json_encode($result);
+            exit;
+        } catch (Exception $e) {
+            echo json_encode($e);
+            exit;
+        }
+    }
+
+    function addGold(Request $req) {
+        try {
+            $data = [
+                'Amount' => $req->amount,
+                'PlayFabId' => $req->playfab_id,
+                'VirtualCurrency' => 'GD',
+            ];
+            $result = $this->createCURL("Server/AddUserVirtualCurrency", "X-SecretKey: ".$this->SecretKey, $data);
+            echo json_encode($result);
+            exit;
+        } catch (Exception $e) {
+            echo json_encode($e);
+            exit;
+        }
+    }
+
+    function substractShard(Request $req) {
+        try {
+            $data = [
+                'Amount' => $req->amount,
+                'PlayFabId' => $req->playfab_id,
+                'VirtualCurrency' => 'SH',
+            ];
+            $result = $this->createCURL("Server/SubtractUserVirtualCurrency", "X-SecretKey: ".$this->SecretKey, $data);
+            echo json_encode($result);
+            exit;
+        } catch (Exception $e) {
+            echo json_encode($e);
+            exit;
+        }
+    }
+
+    function getAllPlayer() {
+        try {
+            echo json_encode(APIModel::getAllPlayer());
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
+
+    function addTransaction(Request $req) {
+        try {
+            if (APIModel::addTransaction($req)) {
+                $response = [
+                    'status' => 'add transaction success',
+                ];
+            } else {
+                $response = [
+                    'status' => 'add transaction failed',
+                ];
+            }
+            echo json_encode($response);
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
+
+    function getNFTTransactionCount() {
+        echo APIModel::getNFTTransactionCount();
+    }
+
+    function getItemsTransactionCount() {
+        echo APIModel::getItemsTransactionCount();
+    }
+
+    function getAllTransactionCount() {
+        echo APIModel::getAllTransactionCount();
     }
 }

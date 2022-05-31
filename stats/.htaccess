@@ -1,0 +1,7 @@
+AuthName "api.komoverse.io statistics"
+AuthType Basic
+AuthUserFile /home/komoverse/domains/api.komoverse.io/.stats-htpasswd
+require valid-user
+<Files .stats-htpasswd>
+deny from all
+</Files>

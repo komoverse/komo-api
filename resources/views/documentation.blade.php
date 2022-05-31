@@ -57,8 +57,17 @@
                 <ul>
                     <li><a href="#register">Register</a></li>
                     <li><a href="#login">Login</a></li>
+                    <li><a href="#get-all-players">Get All Players</a></li>
                     <li><a href="#get-account-info">Get Account Info</a></li>
+                    <li><a href="#change-password">Change Password</a></li>
                     <li><a href="#change-display-name">Change Display Name</a></li>
+                    <li><a href="#add-item-to-inventory">Add Item to Inventory</a></li>
+                    <li><a href="#get-inventory">Get Player Inventory</a></li>
+                    <li><a href="#revoke-inventory">Revoke Inventory Item</a></li>
+                    <li><a href="#add-gold">Add Gold</a></li>
+                    <li><a href="#substract-shard">Substract Shard</a></li>
+                    <li><a href="#add-transaction">Add Transaction</a></li>
+                    <li><a href="#transaction-count">Get Transaction Count</a></li>
                     <li></li>
                 </ul>
             </div>
@@ -128,6 +137,22 @@
                 </table>
 
 
+                <h2 id="get-all-players">Get All Players</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>GET</td>
+                        <td>{{ url('v1/player-list') }}</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON list of all player from KOMO Database
+                        </td>
+                    </tr>
+                </table>
+
                 <h2 id="get-account-info">Get Account Info</h2>
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">
@@ -151,12 +176,42 @@
                     </tr>
                 </table>
 
+                <h2 id="change-password">Change Password</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/change-password') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>komo_username</td>
+                        <td>String. KOMO Username.</td>
+                    </tr>
+                    <tr>
+                        <td>old_password</td>
+                        <td>String. Old password.</td>
+                    </tr>
+                    <tr>
+                        <td>new_password</td>
+                        <td>String. New password.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            status: New Password Set, Failed to set new password, Old password not match with database
+                        </td>
+                    </tr>
+                </table>
 
                 <h2 id="change-display-name">Change Display Name</h2>
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">
                         <td>POST</td>
-                        <td>{{ url('v1/get-account-info') }}</td>
+                        <td>{{ url('v1/change-display-name') }}</td>
                     </tr>
                     <tr class="request">
                         <td colspan="2">Request</td>
@@ -177,6 +232,187 @@
                             status: Change Success, Change Failed
                             <br>
                             display_name: New Display Name
+                        </td>
+                    </tr>
+                </table>
+
+
+                <h2 id="add-item-to-inventory">Add Item To Inventory</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/add-item-to-inventory') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>playfab_id</td>
+                        <td>String. Playfab ID.</td>
+                    </tr>
+                    <tr>
+                        <td>item_id</td>
+                        <td>String. Item ID as in Playfab.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON playfab response
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="get-inventory">Get Player Inventory</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/get-inventory') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>playfab_id</td>
+                        <td>String. Playfab ID.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON playfab response
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="revoke-inventory">Revoke Inventory</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/revoke-inventory') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>item_instance_id</td>
+                        <td>String. Item Instance ID.</td>
+                    </tr>
+                    <tr>
+                        <td>playfab_id</td>
+                        <td>String. Playfab ID.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON playfab response
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="add-gold">Add Gold</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/add-gold') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>amount</td>
+                        <td>Integer. Amount of Gold to be Added.</td>
+                    </tr>
+                    <tr>
+                        <td>playfab_id</td>
+                        <td>String. Playfab ID.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON playfab response
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="substract-shard">Substract Shard</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/substract-shard') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>amount</td>
+                        <td>Integer. Amount of Shard to be Substrac.t</td>
+                    </tr>
+                    <tr>
+                        <td>playfab_id</td>
+                        <td>String. Playfab ID.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON playfab response
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="add-transaction">Add Transaction</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/add-transaction') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>seller</td>
+                        <td>String. Seller Wallet Public Key</td>
+                    </tr>
+                    <tr>
+                        <td>buyer</td>
+                        <td>String. Buyer Wallet Public Key</td>
+                    </tr>
+                    <tr>
+                        <td>tx_id</td>
+                        <td>String. Transaction ID</td>
+                    </tr>
+                    <tr>
+                        <td>tx_type</td>
+                        <td>String. Type of transaction ( <i style="color:red">nft</i> or <i style="color:red">items</i> )</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON status response
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="transaction-count">Get Transaction Count</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>GET</td>
+                        <td>
+                            {{ url('v1/transaction/all') }}<br>
+                            {{ url('v1/transaction/nft') }}<br>
+                            {{ url('v1/transaction/items') }}
+                        </td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            Integer. Count of transaction history.
                         </td>
                     </tr>
                 </table>
