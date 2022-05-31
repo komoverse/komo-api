@@ -57,4 +57,42 @@ class APIModel extends Model
                     ->get();
         return $result;
     }
+
+    static function getAuthKey($auth_key) {
+        $result = DB::table('tb_auth_key')
+                    ->where('auth_key', '=', $auth_key)
+                    ->first();
+        return $result;
+    }
+
+    static function addTransaction($req) {
+        $result = DB::table('tb_market_tx')
+                    ->insert([
+                        'seller' => $req->seller,
+                        'buyer' => $req->buyer,
+                        'tx_id' => $req->tx_id,
+                        'tx_type' => $req->tx_type,
+                    ]);
+        return $result;
+    }
+
+    static function getNFTTransactionCount() {
+        $result = DB::table('tb_market_tx')
+                    ->where('tx_type', '=', 'nft')
+                    ->count();
+        return $result;
+    }
+
+    static function getItemsTransactionCount() {
+        $result = DB::table('tb_market_tx')
+                    ->where('tx_type', '=', 'items')
+                    ->count();
+        return $result;
+    }
+
+    static function getAllTransactionCount() {
+        $result = DB::table('tb_market_tx')
+                    ->count();
+        return $result;
+    }
 }

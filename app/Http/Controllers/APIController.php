@@ -313,4 +313,33 @@ class APIController extends Controller
             echo json_encode($e);
         }
     }
+
+    function addTransaction(Request $req) {
+        try {
+            if (APIModel::addTransaction($req)) {
+                $response = [
+                    'status' => 'add transaction success',
+                ];
+            } else {
+                $response = [
+                    'status' => 'add transaction failed',
+                ];
+            }
+            echo json_encode($response);
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
+
+    function getNFTTransactionCount() {
+        echo APIModel::getNFTTransactionCount();
+    }
+
+    function getItemsTransactionCount() {
+        echo APIModel::getItemsTransactionCount();
+    }
+
+    function getAllTransactionCount() {
+        echo APIModel::getAllTransactionCount();
+    }
 }

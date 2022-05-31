@@ -66,6 +66,8 @@
                     <li><a href="#revoke-inventory">Revoke Inventory Item</a></li>
                     <li><a href="#add-gold">Add Gold</a></li>
                     <li><a href="#substract-shard">Substract Shard</a></li>
+                    <li><a href="#add-transaction">Add Transaction</a></li>
+                    <li><a href="#transaction-count">Get Transaction Count</a></li>
                     <li></li>
                 </ul>
             </div>
@@ -360,6 +362,59 @@
                     <tr>
                         <td colspan="2">
                             JSON playfab response
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="add-transaction">Add Transaction</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/add-transaction') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>seller</td>
+                        <td>String. Seller Wallet Public Key</td>
+                    </tr>
+                    <tr>
+                        <td>buyer</td>
+                        <td>String. Buyer Wallet Public Key</td>
+                    </tr>
+                    <tr>
+                        <td>tx_id</td>
+                        <td>String. Transaction ID</td>
+                    </tr>
+                    <tr>
+                        <td>tx_type</td>
+                        <td>String. Type of transaction ( <i style="color:red">nft</i> or <i style="color:red">items</i> )</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON status response
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="transaction-count">Get Transaction Count</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>GET</td>
+                        <td>
+                            {{ url('v1/transaction/all') }}<br>
+                            {{ url('v1/transaction/nft') }}<br>
+                            {{ url('v1/transaction/items') }}
+                        </td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            Integer. Count of transaction history.
                         </td>
                     </tr>
                 </table>

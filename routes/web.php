@@ -46,6 +46,10 @@ Route::prefix('v1')->group(function(){
     Route::post('add-gold', [APIController::class, 'addGold']);
     Route::post('substract-shard', [APIController::class, 'substractShard']);
 
+    Route::post('add-transaction', [APIController::class, 'addTransaction']);
+    Route::get('transaction/nft', [APIController::class, 'getNFTTransactionCount']);
+    Route::get('transaction/items', [APIController::class, 'getItemsTransactionCount']);
+    Route::get('transaction/all', [APIController::class, 'getAllTransactionCount']);
 
     // WIP
     // Server/AddUserVirtualCurrency (KOMO > gold)

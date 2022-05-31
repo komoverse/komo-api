@@ -66,6 +66,19 @@
     <button class="btn btn-success" id="btn-substract-shard">Substract Shard</button>
 
 
+    <br>
+    <br>
+    <br>
+    Add Transaction : 
+    <input type="text" name="seller" value="BwkQW4MWv6iVpJt9vZXwWxD9gRbDyfxZQGTLTCnmprW7"> 
+    <input type="text" name="buyer" value="Bez6azyFZ1hBYA8SiFpo9YfpMe2eU81NSwEPrQEGK5wZ"> 
+    <input type="text" name="tx_id" value="4BpGFdY4yYo3c9jwNEeFK8ZXkR7tupjzeDoD687jmo5sUbF5vskW8Bzof29SmAdAiPv1EqCh76MByd2weKcQsSV6"> 
+    <select name="tx_type">
+      <option value="nft">NFT</option>
+      <option value="items">Items</option>
+    </select>
+    <button class="btn btn-success" id="btn-add-tx">Add Transaction</button>
+
 
     <span class="showajax"></span>
     <!-- Optional JavaScript -->
@@ -273,6 +286,29 @@
         .always(function(result) {
           console.log(result);
           $('#btn-get-inventory').trigger('click');
+        });
+        
+      });
+
+      $("#btn-add-tx").on('click', function(){
+        var seller = $("input[name=seller]").val();
+        var buyer = $("input[name=buyer]").val();
+        var tx_id = $("input[name=tx_id]").val();
+        var tx_type = $("select[name=tx_type] option:selected").val();
+        $.ajax({
+          url: '{{ url('/') }}/v1/add-transaction',
+          type: 'POST',
+          dataType: 'text',
+          data: {
+            seller: seller,
+            buyer: buyer,
+            tx_id: tx_id,
+            tx_type: tx_type,
+            auth_key: '8d60fc60abcb8b7567f6020b4a29c6c5',
+          },
+        })
+        .always(function(result) {
+          console.log(result);
         });
         
       });
