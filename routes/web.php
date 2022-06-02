@@ -52,7 +52,8 @@ Route::prefix('v1')->group(function(){
     Route::get('transaction/all', [APIController::class, 'getAllTransactionCount']);
 
     // WIP
-    // Server/AddUserVirtualCurrency (KOMO > gold)
-    // Server/SubtractUserVirtualCurrency (shard > KOMO)
-    // SOL > KOMO
+    // leaderboard
+// when register by default isi player data (title) 
+// Map ID = Paragon
+// permission public
 });
