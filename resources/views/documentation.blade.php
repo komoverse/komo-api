@@ -38,7 +38,7 @@
         position: absolute;
         top: 80px;
         left: 35px;
-        color: lime;
+        color: white;
         font-weight: bold;
         text-shadow: 0 0 5px black;
         -webkit-text-stroke-width: 0.2px;
@@ -49,11 +49,13 @@
 
     <div class="container-fluid bg-light">
         <div class="row">
-            <div class="col-12 col-lg-2 border-end min-vh-100 p-3">
-                <img src="https://komoverse.io/assets/img/logo.webp" alt="">
+            <div class="col-12 col-lg-3 border-end min-vh-100 p-3">
+                <img src="https://komoverse.io/assets/img/logo.webp" width="190px" alt="">
                 <span class="api">API Documentation</span>
                 <br>
-                <b>Table of Contents</b>
+                <b>Table of Contents</b><br>
+                    <h3>Game Related</h3>
+                    <b>Account Management</b>
                 <ul>
                     <li><a href="#register">Register</a></li>
                     <li><a href="#login">Login</a></li>
@@ -61,17 +63,28 @@
                     <li><a href="#get-account-info">Get Account Info</a></li>
                     <li><a href="#change-password">Change Password</a></li>
                     <li><a href="#change-display-name">Change Display Name</a></li>
+                </ul>
+                <b>Inventory & Economics</b>
+                <ul>
                     <li><a href="#add-item-to-inventory">Add Item to Inventory</a></li>
                     <li><a href="#get-inventory">Get Player Inventory</a></li>
                     <li><a href="#revoke-inventory">Revoke Inventory Item</a></li>
                     <li><a href="#add-gold">Add Gold</a></li>
                     <li><a href="#substract-shard">Substract Shard</a></li>
+                </ul>
+                <b>Leaderboard</b>
+                <ul>
+                    <li><a href="#add-leaderboard">Add Leaderboard Data</a></li>
+                    <li><a href="#get-leaderboard">Get Leaderboard Data</a></li>
+                </ul>
+                <hr>    
+                <h3>Marketplace Related</h3>
+                <ul>
                     <li><a href="#add-transaction">Add Transaction</a></li>
                     <li><a href="#transaction-count">Get Transaction Count</a></li>
-                    <li></li>
                 </ul>
             </div>
-            <div class="col-12 col-lg-10 p-3">
+            <div class="col-12 col-lg-9 p-3">
                 <h2 id="register">Register</h2>
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">
@@ -363,6 +376,73 @@
                         </td>
                     </tr>
                 </table>
+                <h2 id="add-leaderboard">Add Leaderboard Data</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/leaderboard/add') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>playfab_id</td>
+                        <td>String. Playfab ID.</td>
+                    </tr>
+                    <tr>
+                        <td>exp_change</td>
+                        <td>Integer. Number of EXP changed (negative value accepted to reduce EXP).</td>
+                    </tr>
+                    <tr>
+                        <td>placement</td>
+                        <td>Integer. Placement rank after match. Only accept number <i style="color:red">1</i> to <i style="color:red">8</i></td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON status of each leaderboard table writing
+                    </tr>
+                </table>
+                <h2 id="get-leaderboard">Get Leaderboard Data</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/leaderboard/get') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>type</td>
+                        <td>String. <i style="color:red">daily</i>, <i style="color:red">weekly</i>, <i style="color:red">monthly</i>, <i style="color:red">lifetime</i></td>
+                    </tr>
+                    <tr>
+                        <td>parameter</td>
+                        <td>String. 
+                            <br>For daily <i style="color:red">yyyy_mm_dd</i> <i>e.g. 2022-06-03</i> (date and month use leading zero)
+                            <br>For weekly <i style="color:red">yyyy_ww</i> <i>e.g. 2022-22</i> (week of the year starting monday)
+                            <br>For montly <i style="color:red">yyyy_mm</i> <i>e.g. 2022-06</i> (2 digit month use leading zero)
+                            <br>For lifetime <i style="color:red">no parameter required</i></td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON leaderboard data
+                            <br>Leaderboard test preview available <a href="{{ url('leaderboard') }}">{{ url('leaderboard') }}</a>
+                        </td>
+                    </tr>
+                </table>
+                <br><br>
+                <hr>
+                <br><br>
                 <h2 id="add-transaction">Add Transaction</h2>
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">

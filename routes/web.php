@@ -31,6 +31,11 @@ Route::get('register', function() {
     return view('register');
 });
 
+Route::get('leaderboard', function() {
+    return view('leaderboard');
+});
+
+
 Route::prefix('v1')->group(function(){
     Route::post('register', [APIController::class, 'register']);
     Route::post('login', [APIController::class, 'login']);
@@ -50,6 +55,9 @@ Route::prefix('v1')->group(function(){
     Route::get('transaction/nft', [APIController::class, 'getNFTTransactionCount']);
     Route::get('transaction/items', [APIController::class, 'getItemsTransactionCount']);
     Route::get('transaction/all', [APIController::class, 'getAllTransactionCount']);
+
+    Route::post('leaderboard/add', [APIController::class, 'addToLeaderboard']);
+    Route::post('leaderboard/get', [APIController::class, 'getLeaderboard']);
 
     // WIP
     // leaderboard

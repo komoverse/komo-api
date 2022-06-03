@@ -79,6 +79,15 @@
     </select>
     <button class="btn btn-success" id="btn-add-tx">Add Transaction</button>
 
+    <br>
+    <br>
+    <br>
+    Input leaderboard
+    API Key: <input type="text" name="lb_api_key">
+    Playfab ID: <input type="text" name="lb_playfab_id" value="A95421A781CFEA86">
+    EXP Change: <input type="number" name="lb_exp_change" step="1" min="-50" max="50">
+    Placement: <input type="number" name="lb_placement" step="1" min="1" max="8">
+    <button class="btn btn-success" id="btn-add-leaderboard">Add Leaderboard</button>
 
     <span class="showajax"></span>
     <!-- Optional JavaScript -->
@@ -304,6 +313,28 @@
             tx_id: tx_id,
             tx_type: tx_type,
             auth_key: '8d60fc60abcb8b7567f6020b4a29c6c5',
+          },
+        })
+        .always(function(result) {
+          console.log(result);
+        });
+        
+      });
+
+      $("#btn-add-leaderboard").on('click', function(){
+        var playfab_id = $("input[name=lb_playfab_id]").val();
+        var api_key = $("input[name=lb_api_key]").val();
+        var exp_change = $("input[name=lb_exp_change]").val();
+        var placement = $("input[name=lb_placement]").val();
+        $.ajax({
+          url: '{{ url('/') }}/v1/leaderboard/add',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            playfab_id: playfab_id,
+            api_key: api_key,
+            exp_change: exp_change,
+            placement: placement,
           },
         })
         .always(function(result) {

@@ -81,6 +81,7 @@ class APIController extends Controller
                     "status" => "Change Success",
                     "display_name" => $result->data->DisplayName,
                 ];
+                APIModel::changeDBDisplayName($req);
             } else {
                 $response = [
                     "status" => "Change Failed",
@@ -114,7 +115,33 @@ class APIController extends Controller
                 $looper = false;
             }
         }
-        return true;
+        return $try_display_name;
+    }
+
+    function setMapID($playfab_id, $map_id) {
+         try {
+            $data = [
+                "PlayFabId" => $playfab_id,
+                "Data" => [
+                    "Map ID" => $map_id,
+                ],
+                "Permission" => "Public",
+            ];
+            $result = $this->createCURL("Admin/UpdateUserData", "X-SecretKey: ".$this->SecretKey, $data);
+            if ($result) {
+                $response = [
+                    "status" => "Change Success",
+                    "map_id" => $map_id,
+                ];
+            } else {
+                $response = [
+                    "status" => "Change Failed",
+                ];
+            }
+        } catch (Exception $e) {
+            echo json_encode($e);
+            exit;
+        }
     }
 
     function register(Request $req) {
@@ -130,11 +157,12 @@ class APIController extends Controller
                 if ($playfab = $this->registerPlayfabUser($req->komo_username)) {
                     $playfab_id = $playfab->data->PlayFabId;
                     $session_ticket = $playfab->data->SessionTicket;
-                    // Set Initial Display Name
-                    $this->setInitialDisplayName($session_ticket, $req->komo_username);
+                    // Set Initial Display Name and Map ID
+                    $display_name = $this->setInitialDisplayName($session_ticket, $req->komo_username);
+                    $map_id = $this->setMapID($playfab_id, "Paragon");
 
                     // Save to KOMO Database
-                    if (APIModel::registerKOMO($req, $playfab_id)) {
+                    if (APIModel::registerKOMO($req, $playfab_id, $display_name)) {
                         $response = [
                             'status' => 'Registration Success',
                         ];
@@ -341,5 +369,65 @@ class APIController extends Controller
 
     function getAllTransactionCount() {
         echo APIModel::getAllTransactionCount();
+    }
+
+    function addToLeaderboard(Request $req) {
+        $daily = "failed";
+        $weekly = "failed";
+        $monthly = "failed";
+        $lifetime = "failed";
+        $verify_api_key = APIModel::authorizeAPIKey($req->api_key);
+        if ($verify_api_key) {
+            try {
+                if (($req->placement < 1) || ($req->placement > 8)) {
+                    $response = [
+                        'status' => 'Placement value is not valid. 1-8 only'
+                    ];
+                    echo json_encode($response);
+                    exit;
+                }
+                if (APIModel::saveDailyLeaderboard($req)) {
+                    $daily = "success";
+                }
+                if (APIModel::saveWeeklyLeaderboard($req)) {
+                    $weekly = "success";
+                }
+                if (APIModel::saveMonthlyLeaderboard($req)) {
+                    $monthly = "success";
+                }
+                if (APIModel::saveLifetimeLeaderboard($req)) {
+                    $lifetime = "success";
+                }
+                $response = [
+                    'write.daily' => $daily,
+                    'write.weekly' => $weekly,
+                    'write.monthly' => $monthly,
+                    'write.lifetime' => $lifetime,
+                ];
+
+                echo json_encode($response);
+            } catch (Exception $e) {
+                echo json_encode($e);
+            }
+        } else {
+            $status = ['status' => 'API Key Not Found'];
+            echo json_encode($status);
+        }
+    }
+
+    function getLeaderboard(Request $req) {
+        try {
+            $response = APIModel::getLeaderboard($req);
+            if ($response) {
+                echo json_encode($response);
+            } else {
+                $status = [
+                    'status' => 'No Leaderboard Data for This Period',
+                ];
+                echo json_encode($status);
+            }
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
     }
 }
