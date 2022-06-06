@@ -55,13 +55,10 @@ Route::prefix('v1')->group(function(){
     Route::get('transaction/nft', [APIController::class, 'getNFTTransactionCount']);
     Route::get('transaction/items', [APIController::class, 'getItemsTransactionCount']);
     Route::get('transaction/all', [APIController::class, 'getAllTransactionCount']);
+    Route::get('sales/{currency}', [APIController::class, 'getTotalSalesByCurrency']);
+    Route::get('total-sales', [APIController::class, 'getAllTotalSales']);
 
     Route::post('leaderboard/add', [APIController::class, 'addToLeaderboard']);
     Route::post('leaderboard/get', [APIController::class, 'getLeaderboard']);
 
-    // WIP
-    // leaderboard
-// when register by default isi player data (title) 
-// Map ID = Paragon
-// permission public
 });

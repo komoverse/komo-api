@@ -82,6 +82,8 @@
                 <ul>
                     <li><a href="#add-transaction">Add Transaction</a></li>
                     <li><a href="#transaction-count">Get Transaction Count</a></li>
+                    <li><a href="#all-total-sales">Get All Total Sales</a></li>
+                    <li><a href="#total-sales">Get Total Sales By Currency</a></li>
                 </ul>
             </div>
             <div class="col-12 col-lg-9 p-3">
@@ -533,6 +535,43 @@
                     <tr>
                         <td colspan="2">
                             Integer. Count of transaction history.
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="all-total-sales">Get All Total Sales</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>GET</td>
+                        <td>
+                            {{ url('v1/total-sales') }}
+                        </td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON total amount and currency
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="total-sales">Get Total Sales By Currency</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>GET</td>
+                        <td>
+                            {{ url('v1/sales/SOL') }}<br>
+                            {{ url('v1/sales/KOMO') }}<br>
+                            {{ url('v1/sales/USD') }}<br>
+                            {{ url('v1/sales/IDR') }}
+                        </td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            Float. Total Amount of Sales by the Currency
                         </td>
                     </tr>
                 </table>

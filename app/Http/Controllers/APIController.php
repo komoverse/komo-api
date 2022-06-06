@@ -385,6 +385,14 @@ class APIController extends Controller
         echo APIModel::getAllTransactionCount();
     }
 
+    function getTotalSalesByCurrency(Request $req) {
+        echo APIModel::getTotalSalesByCurrency($req->currency);
+    }
+
+    function getAllTotalSales() {
+        echo json_encode(APIModel::getAllTotalSales());
+    }
+
     function addToLeaderboard(Request $req) {
         $this->verifyAPIKey($req->api_key);
         $daily = "failed";

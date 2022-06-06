@@ -101,6 +101,21 @@ class APIModel extends Model
         return $result;
     }
 
+    static function getTotalSalesByCurrency($currency) {
+        $result = DB::table('tb_market_tx')
+                    ->where('currency', '=', strtoupper($currency))
+                    ->sum('amount');
+        return $result;
+    }
+
+    static function getAllTotalSales() {
+        $result = DB::table('tb_market_tx')
+                    ->groupBy('currency')
+                    ->select(DB::raw('SUM(amount) as total_amount'), 'currency')
+                    ->get();
+        return $result;
+    }
+
     static function authorizeAPIKey($api_key) {
         $result = DB::table('tb_api_key')
                     ->where('api_key', '=', $api_key)
