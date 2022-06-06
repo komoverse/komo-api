@@ -348,15 +348,24 @@ class APIController extends Controller
     }
 
     function addTransaction(Request $req) {
+        $this->verifyAPIKey($req->api_key);
         try {
-            if (APIModel::addTransaction($req)) {
+            $currencies = array("SOL", "KOMO", "USD", "IDR");
+            if (!in_array(strtoupper($req->currency), $currencies)) {
+
                 $response = [
-                    'status' => 'add transaction success',
+                    'status' => 'unknown currency',
                 ];
             } else {
-                $response = [
-                    'status' => 'add transaction failed',
-                ];
+                if (APIModel::addTransaction($req)) {
+                    $response = [
+                        'status' => 'add transaction success',
+                    ];
+                } else {
+                    $response = [
+                        'status' => 'add transaction failed',
+                    ];
+                }
             }
             echo json_encode($response);
         } catch (Exception $e) {

@@ -74,6 +74,9 @@ class APIModel extends Model
                         'buyer' => $req->buyer,
                         'tx_id' => $req->tx_id,
                         'tx_type' => $req->tx_type,
+                        'amount' => $req->amount,
+                        'currency' => strtoupper($req->currency),
+                        'custom_param' => $req->custom_param,
                     ]);
         return $result;
     }

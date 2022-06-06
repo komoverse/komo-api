@@ -77,6 +77,14 @@
       <option value="nft">NFT</option>
       <option value="items">Items</option>
     </select>
+    <input type="number" name="tx_amount" value="10.5">
+    <select name="currency">
+      <option value="SOL">SOL</option>
+      <option value="KOMO">KOMO</option>
+      <option value="IDR">IDR</option>
+      <option value="USD">USD</option>
+    </select>
+    <textarea name="custom_param" id="" cols="30" rows="10"></textarea>
     <button class="btn btn-success" id="btn-add-tx">Add Transaction</button>
 
     <br>
@@ -259,6 +267,7 @@
 
       $("#btn-add-gold").on('click', function(){
         var playfab_id = $("input[name=playfab_id]").val();
+        var api_key = $("input[name=lb_api_key]").val();
         var amount = $("input[name=amount]").val();
         console.log('add gold '+amount);
         $.ajax({
@@ -267,6 +276,7 @@
           dataType: 'json',
           data: {
             playfab_id: playfab_id,
+            api_key: api_key,
             amount: amount,
           },
         })
@@ -303,6 +313,10 @@
         var buyer = $("input[name=buyer]").val();
         var tx_id = $("input[name=tx_id]").val();
         var tx_type = $("select[name=tx_type] option:selected").val();
+        var amount = $("input[name=tx_amount]").val();
+        var currency = $("select[name=currency] option:selected").val();
+        var api_key = $("input[name=lb_api_key]").val();
+        var custom_param = $("textarea[name=custom_param]").val();
         $.ajax({
           url: '{{ url('/') }}/v1/add-transaction',
           type: 'POST',
@@ -312,7 +326,10 @@
             buyer: buyer,
             tx_id: tx_id,
             tx_type: tx_type,
-            auth_key: '8d60fc60abcb8b7567f6020b4a29c6c5',
+            amount: amount,
+            currency: currency,
+            custom_param: custom_param,
+            api_key: api_key,
           },
         })
         .always(function(result) {

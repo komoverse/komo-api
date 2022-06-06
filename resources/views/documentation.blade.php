@@ -477,6 +477,10 @@
                         <td colspan="2">Request</td>
                     </tr>
                     <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
                         <td>seller</td>
                         <td>String. Seller Wallet Public Key</td>
                     </tr>
@@ -491,6 +495,18 @@
                     <tr>
                         <td>tx_type</td>
                         <td>String. Type of transaction ( <i style="color:red">nft</i> or <i style="color:red">items</i> )</td>
+                    </tr>
+                    <tr>
+                        <td>amount</td>
+                        <td>Float. Amount of transaction made</td>
+                    </tr>
+                    <tr>
+                        <td>currency</td>
+                        <td>String. Currency used for transaction (<i style="color:red">SOL</i>, <i style="color:red">KOMO</i>, <i style="color:red">USD</i>, <i style="color:red">IDR</i>)</td>
+                    </tr>
+                    <tr>
+                        <td>custom_param <i>(optional)</i></td>
+                        <td>String. Custom parameter for any purpose</td>
                     </tr>
                     <tr class="response">
                         <td colspan="2">Response</td>
