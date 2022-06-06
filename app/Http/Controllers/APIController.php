@@ -70,6 +70,7 @@ class APIController extends Controller
     // }
 
     function changeDisplayName(Request $req) {
+        $this->verifyAPIKey($req->api_key);
         try {
             $data = [
                 "PlayFabId" => $req->playfab_id,
@@ -240,6 +241,7 @@ class APIController extends Controller
     }
 
     function addItemToInventory(Request $req) {
+        $this->verifyAPIKey($req->api_key);
         try {
             $data = [
                 "ItemIds" => array($req->item_id),
@@ -255,6 +257,7 @@ class APIController extends Controller
     }
 
     function changeKOMOPassword(Request $req) {
+        $this->verifyAPIKey($req->api_key);
         $userdata = APIModel::getUserFromUsername($req->komo_username);
         if (md5($req->old_password.$userdata->salt) == $userdata->password) {
             if (APIModel::setNewPassword($req, $userdata->salt)) {
@@ -288,6 +291,7 @@ class APIController extends Controller
     }
 
     function revokeInventory(Request $req) {
+        $this->verifyAPIKey($req->api_key);
         try {
             $data = [
                 'ItemInstanceId' => $req->item_instance_id,
@@ -303,6 +307,7 @@ class APIController extends Controller
     }
 
     function addGold(Request $req) {
+        $this->verifyAPIKey($req->api_key);
         try {
             $data = [
                 'Amount' => $req->amount,
@@ -372,46 +377,42 @@ class APIController extends Controller
     }
 
     function addToLeaderboard(Request $req) {
+        $this->verifyAPIKey($req->api_key);
         $daily = "failed";
         $weekly = "failed";
         $monthly = "failed";
         $lifetime = "failed";
         $verify_api_key = APIModel::authorizeAPIKey($req->api_key);
-        if ($verify_api_key) {
-            try {
-                if (($req->placement < 1) || ($req->placement > 8)) {
-                    $response = [
-                        'status' => 'Placement value is not valid. 1-8 only'
-                    ];
-                    echo json_encode($response);
-                    exit;
-                }
-                if (APIModel::saveDailyLeaderboard($req)) {
-                    $daily = "success";
-                }
-                if (APIModel::saveWeeklyLeaderboard($req)) {
-                    $weekly = "success";
-                }
-                if (APIModel::saveMonthlyLeaderboard($req)) {
-                    $monthly = "success";
-                }
-                if (APIModel::saveLifetimeLeaderboard($req)) {
-                    $lifetime = "success";
-                }
+        try {
+            if (($req->placement < 1) || ($req->placement > 8)) {
                 $response = [
-                    'write.daily' => $daily,
-                    'write.weekly' => $weekly,
-                    'write.monthly' => $monthly,
-                    'write.lifetime' => $lifetime,
+                    'status' => 'Placement value is not valid. 1-8 only'
                 ];
-
                 echo json_encode($response);
-            } catch (Exception $e) {
-                echo json_encode($e);
+                exit;
             }
-        } else {
-            $status = ['status' => 'API Key Not Found'];
-            echo json_encode($status);
+            if (APIModel::saveDailyLeaderboard($req)) {
+                $daily = "success";
+            }
+            if (APIModel::saveWeeklyLeaderboard($req)) {
+                $weekly = "success";
+            }
+            if (APIModel::saveMonthlyLeaderboard($req)) {
+                $monthly = "success";
+            }
+            if (APIModel::saveLifetimeLeaderboard($req)) {
+                $lifetime = "success";
+            }
+            $response = [
+                'write.daily' => $daily,
+                'write.weekly' => $weekly,
+                'write.monthly' => $monthly,
+                'write.lifetime' => $lifetime,
+            ];
+
+            echo json_encode($response);
+        } catch (Exception $e) {
+            echo json_encode($e);
         }
     }
 
@@ -428,6 +429,15 @@ class APIController extends Controller
             }
         } catch (Exception $e) {
             echo json_encode($e);
+        }
+    }
+
+    function verifyAPIKey($api_key) {
+        $verify_api_key = APIModel::authorizeAPIKey($api_key);
+        if (!$verify_api_key) {
+            $status = ['status' => 'API Key Not Found'];
+            echo json_encode($status);
+            exit;
         }
     }
 }

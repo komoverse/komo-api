@@ -199,6 +199,10 @@
                         <td colspan="2">Request</td>
                     </tr>
                     <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
                         <td>komo_username</td>
                         <td>String. KOMO Username.</td>
                     </tr>
@@ -230,6 +234,10 @@
                         <td colspan="2">Request</td>
                     </tr>
                     <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
                         <td>playfab_id</td>
                         <td>String. Playfab ID.</td>
                     </tr>
@@ -258,6 +266,10 @@
                     </tr>
                     <tr class="request">
                         <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
                     </tr>
                     <tr>
                         <td>playfab_id</td>
@@ -308,6 +320,10 @@
                         <td colspan="2">Request</td>
                     </tr>
                     <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
                         <td>item_instance_id</td>
                         <td>String. Item Instance ID.</td>
                     </tr>
@@ -334,6 +350,10 @@
                         <td colspan="2">Request</td>
                     </tr>
                     <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
                         <td>amount</td>
                         <td>Integer. Amount of Gold to be Added.</td>
                     </tr>
@@ -358,6 +378,10 @@
                     </tr>
                     <tr class="request">
                         <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
                     </tr>
                     <tr>
                         <td>amount</td>
