@@ -300,4 +300,48 @@ class APIModel extends Model
                     ]);
         return $update;
     }
+
+    static function submitMatchHistory($req) {
+        $insert = DB::table('tb_match_history')
+                    ->insert([
+                        'match_id' => $req->match_id,
+                        'placement' => $req->placement,
+                        'playfab_id' => $req->playfab_id,
+                        'display_name' => $req->display_name,
+                        'player_level' => $req->player_level,
+                        'lineup' => self::normalizeJSON($req->lineup),
+                        'buff_items' => self::normalizeJSON($req->buff_items),
+                        'win' => $req->win,
+                        'lose' => $req->lose,
+                        'heroes_kill' => $req->heroes_kill,
+                        'heroes_death' => $req->heroes_death,
+                        'damage_given' => $req->damage_given,
+                        'damage_taken' => $req->damage_taken,
+                        'duration' => $req->time,
+                    ]);
+        return $insert;
+    }
+
+    static function getMatchListByPlayer($playfab_id) {
+        $result = DB::table('tb_match_history')
+                    ->where('playfab_id', '=', $playfab_id)
+                    ->orderBy('submit_time', 'desc')
+                    ->get();
+        return $result;
+    }
+
+    static function getMatchDetailByID($match_id) {
+        $result = DB::table('tb_match_history')
+                    ->where('match_id', '=', $match_id)
+                    ->orderBy('placement', 'asc')
+                    ->get();
+        return $result;
+    }
+
+    static function normalizeJSON($req) {
+        // $req = str_replace('"', "'", $req);
+        $req = str_replace("\r\n", "", $req);
+        $req = str_replace(" ", "", $req);
+        return $req;
+    }
 }

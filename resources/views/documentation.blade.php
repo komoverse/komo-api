@@ -76,6 +76,9 @@
                 <ul>
                     <li><a href="#add-leaderboard">Add Leaderboard Data</a></li>
                     <li><a href="#get-leaderboard">Get Leaderboard Data</a></li>
+                    <li><a href="#add-match-history">Submit Match History</a></li>
+                    <li><a href="#get-match-detail-by-id">Get Match Detail By Match ID</a></li>
+                    <li><a href="#list-player-match-history">Get List of Match History Per Player</a></li>
                 </ul>
                 <hr>    
                 <h3>Marketplace Related</h3>
@@ -466,6 +469,162 @@
                         </td>
                     </tr>
                 </table>
+                <h2 id="add-match-history">Submit Match History</h2>
+                <i style="color:red">Note: This API require 8 submissions for each player or matchmaking server can submit with 8 player data at once.<br><br></i>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/match-history/add') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>match_id</td>
+                        <td>String. Match ID. Each player must submit with same Match ID.</td>
+                    </tr>
+                    <tr>
+                        <td>playfab_id</td>
+                        <td>String. Playfab ID.</td>
+                    </tr>
+                    <tr>
+                        <td>display_name</td>
+                        <td>String. Playfab Display Name.</td>
+                    </tr>
+                    <tr>
+                        <td>placement</td>
+                        <td>Integer. Placement rank after match. Only accept number <i style="color:red">1</i> to <i style="color:red">8</i></td>
+                    </tr>
+                    <tr>
+                        <td>player_level <i>(optional)</i></td>
+                        <td>String. Player level during match (reserved for ranked matchmaking)</td>
+                    </tr>
+                    <tr>
+                        <td>lineup</td>
+                        <td>String. Lineup heroes and star on JSON with following format.
+                            <pre>
+{ 
+    "star*heroes-id": qty, 
+}
+For Example
+{
+    "3*eikthyr": 1,
+    "3*sakura": 2,
+    "2*rogue": 1,
+    "1*rogue": 1,
+    "1*kuli": 1
+}
+                            </pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>buff_items <i>(optional)</i></td>
+                        <td>String. Buff items used during match on JSON with following format.
+                            <pre>
+{
+    "item-id": <i>qty</i>,
+}
+For Example
+{
+    "lightning-gloves": 3,
+    "wizard-stone": 2
+}
+                            </pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>win <i>(optional)</i></td>
+                        <td>Integer. Round win</td>
+                    </tr>
+                    <tr>
+                        <td>lose <i>(optional)</i></td>
+                        <td>Integer. Round lose</td>
+                    </tr>
+                    <tr>
+                        <td>heroes_kill <i>(optional)</i></td>
+                        <td>Integer. Enemy heroes kill count</td>
+                    </tr>
+                    <tr>
+                        <td>heroes_death <i>(optional)</i></td>
+                        <td>Integer. Allied heroes death count</td>
+                    </tr>
+                    <tr>
+                        <td>damage_given <i>(optional)</i></td>
+                        <td>Integer. Damage given to enemy heroes</td>
+                    </tr>
+                    <tr>
+                        <td>damage_taken <i>(optional)</i></td>
+                        <td>Integer. Damage taken from enemy heroes</td>
+                    </tr>
+                    <tr>
+                        <td>duration <i>(optional)</i></td>
+                        <td>String. Duration of survival in <i style="color:red">hh:mm:ss</i> format. e.g. 00:32:15 for 0 hours 32 minutes 15 seconds</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON status of each leaderboard table writing
+                    </tr>
+                </table>
+                <h2 id="list-player-match-history">Get List of Match History Per Player</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/match-history/list') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>playfab_id</td>
+                        <td>String. Playfab ID</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON Match History data
+                            <br>Match history test preview available <a href="{{ url('match-history') }}">{{ url('match-history') }}</a>
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="get-match-detail-by-id">Get Match Detail By Match ID</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/match-history/detail') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>match_id</td>
+                        <td>String. Match ID</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON Match History data
+                            <br>Match history test preview available <a href="{{ url('match-history') }}">{{ url('match-history') }}</a>
+                        </td>
+                    </tr>
+                </table>
+
+
+
+
+                    <li><a href="#add-match-history"></a></li>
+                    <li><a href="#list-player-match-history">Get List of Match History Per Player</a></li>
+                    <li><a href="#get-match-detail-by-id">Get Match Detail By Match ID</a></li>
                 <br><br>
                 <hr>
                 <br><br>

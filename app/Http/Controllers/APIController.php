@@ -457,4 +457,39 @@ class APIController extends Controller
             exit;
         }
     }
+
+    function addMatchHistory(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            if (APIModel::submitMatchHistory($req)) {
+                $data = [
+                    'status' => 'success'
+                ];
+                echo json_encode($data);
+            } else {
+                $data = [
+                    'status' => 'failed'
+                ];
+                echo json_encode($data);
+            }
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
+
+    function listMatchHistory(Request $req) {
+        try {
+            echo json_encode(APIModel::getMatchListByPlayer($req->playfab_id));
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
+    
+    function getMatchDetail(Request $req) {
+        try {
+            echo json_encode(APIModel::getMatchDetailByID($req->match_id));
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
 }

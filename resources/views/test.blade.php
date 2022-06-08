@@ -97,6 +97,9 @@
     Placement: <input type="number" name="lb_placement" step="1" min="1" max="8">
     <button class="btn btn-success" id="btn-add-leaderboard">Add Leaderboard</button>
 
+
+    <a href="{{ url('match-history') }}">Input Match History</a>
+
     <span class="showajax"></span>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

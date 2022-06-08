@@ -35,6 +35,9 @@ Route::get('leaderboard', function() {
     return view('leaderboard');
 });
 
+Route::get('match-history', function() {
+    return view('match-history');
+});
 
 Route::prefix('v1')->group(function(){
     Route::post('register', [APIController::class, 'register']);
@@ -60,5 +63,8 @@ Route::prefix('v1')->group(function(){
 
     Route::post('leaderboard/add', [APIController::class, 'addToLeaderboard']);
     Route::post('leaderboard/get', [APIController::class, 'getLeaderboard']);
+    Route::post('match-history/add', [APIController::class, 'addMatchHistory']);
+    Route::post('match-history/list', [APIController::class, 'listMatchHistory']);
+    Route::post('match-history/detail', [APIController::class, 'getMatchDetail']);
 
 });
