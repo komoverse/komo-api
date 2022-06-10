@@ -8,6 +8,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>KOMO API Documentation</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://kit.fontawesome.com/b71ce7388c.js" crossorigin="anonymous"></script>
+
   </head>
   <style>
       .endpoint {
@@ -44,6 +46,11 @@
         -webkit-text-stroke-width: 0.2px;
         -webkit-text-stroke-color: black;
       }
+      #btn-back-to-top {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+        }
   </style>
   <body>
 
@@ -84,9 +91,12 @@
                 <h3>Marketplace Related</h3>
                 <ul>
                     <li><a href="#add-transaction">Add Transaction</a></li>
-                    <li><a href="#transaction-count">Get Transaction Count</a></li>
+                    <li><a href="#get-transaction">Get Transaction (by Date)</a></li>
+                    <li><a href="#get-tx-by-wallet">Get Transaction (by Wallet)</a></li>
+                    <li><a href="#get-tx-by-id">Get Transaction ID Detail</a></li>
+{{--                     <li><a href="#transaction-count">Get Transaction Count</a></li>
                     <li><a href="#all-total-sales">Get All Total Sales</a></li>
-                    <li><a href="#total-sales">Get Total Sales By Currency</a></li>
+                    <li><a href="#total-sales">Get Total Sales By Currency</a></li> --}}
                 </ul>
             </div>
             <div class="col-12 col-lg-9 p-3">
@@ -112,8 +122,8 @@
                         <td>String. Email address.</td>
                     </tr>
                     <tr>
-                        <td>wallet_pubkey</td>
-                        <td>(Optional) String. Phantom wallet public key.</td>
+                        <td>wallet_pubkey <i>(optional)</i></td>
+                        <td>String. Phantom wallet public key.</td>
                     </tr>
                     <tr class="response">
                         <td colspan="2">Response</td>
@@ -454,9 +464,9 @@
                     <tr>
                         <td>parameter</td>
                         <td>String. 
-                            <br>For daily <i style="color:red">yyyy_mm_dd</i> <i>e.g. 2022-06-03</i> (date and month use leading zero)
-                            <br>For weekly <i style="color:red">yyyy_ww</i> <i>e.g. 2022-22</i> (week of the year starting monday)
-                            <br>For montly <i style="color:red">yyyy_mm</i> <i>e.g. 2022-06</i> (2 digit month use leading zero)
+                            <br>For daily <i style="color:red">yyyy-mm-dd</i> <i>e.g. 2022-06-03</i> (date and month use leading zero)
+                            <br>For weekly <i style="color:red">yyyy-ww</i> <i>e.g. 2022-22</i> (week of the year starting monday)
+                            <br>For montly <i style="color:red">yyyy-mm</i> <i>e.g. 2022-06</i> (2 digit month use leading zero)
                             <br>For lifetime <i style="color:red">no parameter required</i></td>
                     </tr>
                     <tr class="response">
@@ -618,13 +628,6 @@ For Example
                         </td>
                     </tr>
                 </table>
-
-
-
-
-                    <li><a href="#add-match-history"></a></li>
-                    <li><a href="#list-player-match-history">Get List of Match History Per Player</a></li>
-                    <li><a href="#get-match-detail-by-id">Get Match Detail By Match ID</a></li>
                 <br><br>
                 <hr>
                 <br><br>
@@ -678,6 +681,93 @@ For Example
                         </td>
                     </tr>
                 </table>
+                <h2 id="get-transaction">Get Transaction (by Date)</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/get-transaction') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>tx_type</td>
+                        <td>String. Type of transaction ( <i style="color:red">all</i> or <i style="color:red">nft</i> or <i style="color:red">items</i> )</td>
+                    </tr>
+                    <tr>
+                        <td>date_start (optional)</td>
+                        <td>String. Starting date of which transaction to be retrieved <i style="color:red">yyyy-mm-dd</i></td>
+                    </tr>
+                    <tr>
+                        <td>date_end (optional)</td>
+                        <td>String. Ending date of which transaction to be retrieved <i style="color:red">yyyy-mm-dd</i></td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON response contains number of records, total sales per category, total amount per currency, and transaction details
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="get-tx-by-wallet">Get Transaction (by Wallet)</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/get-tx-by-wallet') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>wallet_pubkey <i>(optional)</i></td>
+                        <td>String. Phantom wallet public key.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON response contains number of records, position, total sales per category, total amount per currency, and transaction details
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="get-tx-by-id">Get Transaction ID Detail</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/get-tx-by-id') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>tx_id</td>
+                        <td>String. Transaction ID.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON response contains detail of transaction
+                        </td>
+                    </tr>
+                </table>
+                {{--
                 <h2 id="transaction-count">Get Transaction Count</h2>
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">
@@ -733,10 +823,20 @@ For Example
                             Float. Total Amount of Sales by the Currency
                         </td>
                     </tr>
-                </table>
+                </table> --}}
             </div>
         </div>
-    </div><!-- JavaScript Bundle with Popper -->
+    </div>
+    <button type="button" class="btn btn-danger btn-floating btn-lg" id="btn-back-to-top">
+    <i class="fas fa-arrow-up"></i>
+    </button>
+    <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script>
+    $('#btn-back-to-top').on('click', function(){
+       $("html, body").animate({ scrollTop: 0 }, "slow");
+  return false;
+    });
+</script>
   </body>
 </html>

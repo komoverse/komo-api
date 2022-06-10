@@ -492,4 +492,77 @@ class APIController extends Controller
             echo json_encode($e);
         }
     }
+
+    function getTransactionByDate(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            $tx_data = APIModel::getTransactionByDate($req);
+            $sum_data = APIModel::getTransactionSumByDate($req);
+            $sum_data_array = [];                
+            foreach ($sum_data as $row) {
+                $sum_data_array[$row->currency] = $row->total_amount;                
+            }
+            $type_data = APIModel::getTransactionTypeByDate($req);
+            $type_data_array = [];                
+            foreach ($type_data as $row) {
+                $type_data_array[$row->tx_type] = $row->total_type;                
+            }
+            $data = [
+                'records' => count($tx_data),
+                'sum_amount' => $sum_data_array,
+                'types' => $type_data_array,
+                'transactions' => $tx_data,
+            ];
+            echo json_encode($data);
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
+
+    function getTransactionByTxID(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            echo json_encode(APIModel::getTransactionByTxID($req->tx_id));
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
+
+    function getTransactionByWallet(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            $tx_data = APIModel::getTransactionByWallet($req);
+            $sum_data = APIModel::getTransactionSumByWallet($req);
+            $sum_data_array = [];
+            $as_buyer = 0; $as_seller = 0;
+            foreach ($tx_data as $row) {
+                if ($row->buyer == $req->wallet_pubkey) {
+                    $as_buyer++;             
+                } else {
+                    $as_seller++;
+                }
+            }
+            foreach ($sum_data as $row) {
+                $sum_data_array[$row->currency] = $row->total_amount;
+            }
+            $type_data = APIModel::getTransactionTypeByWallet($req);
+            $type_data_array = [];                
+            foreach ($type_data as $row) {
+                $type_data_array[$row->tx_type] = $row->total_type;                
+            }
+            $data = [
+                'records' => count($tx_data),
+                'sum_amount' => $sum_data_array,
+                'types' => $type_data_array,
+                'position' => [
+                    'seller' => $as_seller,
+                    'buyer' => $as_buyer,
+                ],
+                'transactions' => $tx_data,
+            ];
+            echo json_encode($data);
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
 }

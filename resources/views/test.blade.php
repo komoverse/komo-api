@@ -90,6 +90,24 @@
     <br>
     <br>
     <br>
+    Get Transaction 
+    <select name="gtx_tx_type">
+      <option value="all">All</option>
+      <option value="nft">NFT</option>
+      <option value="items">Items</option>
+    </select>
+    <input type="date" name="gtx_start"> 
+    <input type="date" name="gtx_end"> 
+    <button class="btn btn-success" id="btn-get-tx">Get TX</button>
+    <br>
+    <input type="text" name="gtx2_wallet_pubkey" value="BwkQW4MWv6iVpJt9vZXwWxD9gRbDyfxZQGTLTCnmprW7">
+    <button class="btn btn-success" id="btn-get-tx2">Get TX By Wallet</button>
+    <br>
+    <input type="text" name="gtx3_tx_id" value="4BpGFdY4yYo3c9jwNEeFK8ZXkR7tupjzeDoD687jmo5sUbF5vskW8Bzof29SmAdAiPv1EqCh76MByd2weKcQsSV6">
+    <button class="btn btn-success" id="btn-get-tx3">Get TX By ID</button>
+    <br>
+    <br>
+    <br>
     Input leaderboard
     API Key: <input type="text" name="lb_api_key">
     Playfab ID: <input type="text" name="lb_playfab_id" value="A95421A781CFEA86">
@@ -355,6 +373,64 @@
             api_key: api_key,
             exp_change: exp_change,
             placement: placement,
+          },
+        })
+        .always(function(result) {
+          console.log(result);
+        });
+        
+      });
+
+
+      $("#btn-get-tx").on('click', function(){
+        var tx_type = $("select[name=gtx_tx_type] option:selected").val();
+        var start_date = $("input[name=gtx_start]").val();
+        var end_date = $("input[name=gtx_end]").val();
+        var api_key = $("input[name=lb_api_key]").val();
+        $.ajax({
+          url: '{{ url('/') }}/v1/get-transaction',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            date_start: start_date,
+            date_end: end_date,
+            tx_type: tx_type,
+            api_key: api_key,
+          },
+        })
+        .always(function(result) {
+          console.log(result);
+        });
+        
+      });
+
+      $("#btn-get-tx2").on('click', function(){
+        var wallet_pubkey = $("input[name=gtx2_wallet_pubkey]").val();
+        var api_key = $("input[name=lb_api_key]").val();
+        $.ajax({
+          url: '{{ url('/') }}/v1/get-tx-by-wallet',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            wallet_pubkey: wallet_pubkey,
+            api_key: api_key,
+          },
+        })
+        .always(function(result) {
+          console.log(result);
+        });
+      });
+
+      $("#btn-get-tx3").on('click', function(){
+        var tx_id = $("input[name=gtx3_tx_id]").val();
+        var api_key = $("input[name=lb_api_key]").val();
+        $.ajax({
+          url: '{{ url('/') }}/v1/get-tx-by-id',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            tx_id: tx_id,
+            api_key: api_key,
           },
         })
         .always(function(result) {

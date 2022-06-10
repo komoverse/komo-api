@@ -60,6 +60,9 @@ Route::prefix('v1')->group(function(){
     Route::get('transaction/all', [APIController::class, 'getAllTransactionCount']);
     Route::get('sales/{currency}', [APIController::class, 'getTotalSalesByCurrency']);
     Route::get('total-sales', [APIController::class, 'getAllTotalSales']);
+    Route::post('get-transaction', [APIController::class, 'getTransactionByDate']);
+    Route::post('get-tx-by-id', [APIController::class, 'getTransactionByTxID']);
+    Route::post('get-tx-by-wallet', [APIController::class, 'getTransactionByWallet']);
 
     Route::post('leaderboard/add', [APIController::class, 'addToLeaderboard']);
     Route::post('leaderboard/get', [APIController::class, 'getLeaderboard']);

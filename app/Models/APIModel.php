@@ -344,4 +344,90 @@ class APIModel extends Model
         $req = str_replace(" ", "", $req);
         return $req;
     }
+
+    static function getTransactionByDate($req) {
+        $query = DB::table('tb_market_tx');
+
+        if (strtolower($req->tx_type) != 'all') {
+            $query->where('tx_type', '=', strtolower($req->tx_type));
+        }
+        if (isset($req->date_start) && ($req->date_start != '0000-00-00')) {
+            $query->where('date_added', '>=', $req->date_start);
+        }
+        if (isset($req->date_end) && ($req->date_end != '0000-00-00')) {
+            $query->where('date_added', '<=', $req->date_end);
+        }
+        $result = $query->get();
+        return $result;
+    }
+
+    static function getTransactionSumByDate($req) {
+        $query = DB::table('tb_market_tx');
+        if (strtolower($req->tx_type) != 'all') {
+            $query->where('tx_type', '=', strtolower($req->tx_type));
+        }
+        if (isset($req->date_start) && ($req->date_start != '0000-00-00')) {
+            $query->where('date_added', '>=', $req->date_start);
+        }
+        if (isset($req->date_end) && ($req->date_end != '0000-00-00')) {
+            $query->where('date_added', '<=', $req->date_end);
+        }
+        $query->groupBy('currency');
+        $query->select(DB::raw('SUM(amount) as total_amount'), 'currency');
+        $result = $query->get();
+        return $result;
+    }
+
+    static function getTransactionTypeByDate($req) {
+        $query = DB::table('tb_market_tx');
+        if (strtolower($req->tx_type) != 'all') {
+            $query->where('tx_type', '=', strtolower($req->tx_type));
+        }
+        if (isset($req->date_start) && ($req->date_start != '0000-00-00')) {
+            $query->where('date_added', '>=', $req->date_start);
+        }
+        if (isset($req->date_end) && ($req->date_end != '0000-00-00')) {
+            $query->where('date_added', '<=', $req->date_end);
+        }
+        $query->groupBy('tx_type');
+        $query->select(DB::raw('COUNT(tx_type) as total_type'), 'tx_type');
+        $result = $query->get();
+        return $result;
+    }
+
+    static function getTransactionByTxID($tx_id) {
+        $result = DB::table('tb_market_tx')
+                    ->where('tx_id', '=', $tx_id)
+                    ->first();
+        return $result;
+    }
+
+    static function getTransactionByWallet($req) {
+        $result = DB::table('tb_market_tx')
+                    ->where('seller', '=', $req->wallet_pubkey)
+                    ->orWhere('buyer', '=', $req->wallet_pubkey)
+                    ->get();
+        return $result;
+    }
+
+    static function getTransactionSumByWallet($req) {
+        $result = DB::table('tb_market_tx')
+                    ->where('seller', '=', $req->wallet_pubkey)
+                    ->orWhere('buyer', '=', $req->wallet_pubkey)
+                    ->groupBy('currency')
+                    ->select(DB::raw('SUM(amount) as total_amount'), 'currency')
+                    ->get();
+        return $result;
+    }
+
+    static function getTransactionTypeByWallet($req) {
+        $result = DB::table('tb_market_tx')
+                    ->where('seller', '=', $req->wallet_pubkey)
+                    ->orWhere('buyer', '=', $req->wallet_pubkey)
+                    ->groupBy('tx_type')
+                    ->select(DB::raw('COUNT(tx_type) as total_type'), 'tx_type')
+                    ->get();
+        return $result;
+    }
+
 }
