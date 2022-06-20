@@ -90,6 +90,8 @@
                 <hr>    
                 <h3>Marketplace Related</h3>
                 <ul>
+                    <li><a href="#get-account-from-username">Get Account Info From Username</a></li>
+                    <li><a href="#get-account-from-wallet">Get Account Info From Wallet Pubkey</a></li>
                     <li><a href="#add-transaction">Add Transaction</a></li>
                     <li><a href="#get-transaction">Get Transaction (by Date)</a></li>
                     <li><a href="#get-tx-by-wallet">Get Transaction (by Wallet)</a></li>
@@ -631,6 +633,60 @@ For Example
                 <br><br>
                 <hr>
                 <br><br>
+
+                <h2 id="get-account-from-username">Get Account Info From Username</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/account-info/username') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>komo_username</td>
+                        <td>String. KOMO Username.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON response contains account info
+                        </td>
+                    </tr>
+                </table>
+
+                <h2 id="get-account-from-wallet">Get Account Info From Wallet Pubkey</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/account-info/wallet') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>wallet_pubkey</td>
+                        <td>String. Wallet Public Key.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON response contains account info
+                        </td>
+                    </tr>
+                </table>
                 <h2 id="add-transaction">Add Transaction</h2>
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">

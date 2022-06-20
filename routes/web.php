@@ -44,6 +44,8 @@ Route::prefix('v1')->group(function(){
     Route::post('login', [APIController::class, 'login']);
     Route::post('change-display-name', [APIController::class, 'changeDisplayName']);
     Route::post('account-info', [APIController::class, 'getAccountInfo']);
+    Route::post('account-info/username', [APIController::class, 'getKOMOAccountInfoByUsername']);
+    Route::post('account-info/wallet', [APIController::class, 'getKOMOAccountInfoByWallet']);
     Route::post('change-password', [APIController::class, 'changeKOMOPassword']);
     Route::get('player-list', [APIController::class, 'getAllPlayer']);
 

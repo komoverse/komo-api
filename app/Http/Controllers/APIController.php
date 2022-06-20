@@ -565,4 +565,22 @@ class APIController extends Controller
             echo json_encode($e);
         }
     }
+
+    function getKOMOAccountInfoByUsername(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            echo json_encode(APIModel::getKOMOAccountInfoByUsername($req->komo_username));
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
+
+    function getKOMOAccountInfoByWallet(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            echo json_encode(APIModel::getKOMOAccountInfoByWallet($req->wallet_pubkey));
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
 }

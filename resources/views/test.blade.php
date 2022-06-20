@@ -118,12 +118,53 @@
 
     <a href="{{ url('match-history') }}">Input Match History</a>
 
+    <br>
+    <br>
+    <br>
+
+    <input type="text" name="mk_username">
+    <button class="btn btn-success" id="btn-account-info-username">Get From Username</button>
+    <input type="text" name="mk_wallet">
+    <button class="btn btn-success" id="btn-account-info-wallet">Get From Wallet</button>
+
     <span class="showajax"></span>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script>
+      $("#btn-account-info-username").on('click', function(){
+        var komo_username = $("input[name=mk_username]").val();
+
+        $.ajax({
+          url: '{{ url('/') }}/v1/account-info/username',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            komo_username: komo_username,
+          },
+        })
+        .always(function(result) {
+          console.log(result);
+        });
+      });
+
+      $("#btn-account-info-wallet").on('click', function(){
+        var wallet_pubkey = $("input[name=mk_wallet]").val();
+
+        $.ajax({
+          url: '{{ url('/') }}/v1/account-info/wallet',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            wallet_pubkey: wallet_pubkey,
+          },
+        })
+        .always(function(result) {
+          console.log(result);
+        });
+      });
+
       $("#btn-submit").on('click', function(){
         var komo_username = $("input[name=komo_username]").val();
         var password = $("input[name=password]").val();

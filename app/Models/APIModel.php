@@ -430,4 +430,19 @@ class APIModel extends Model
         return $result;
     }
 
+    static function getKOMOAccountInfoByUsername($komo_username) {
+        $result = DB::table('tb_account')
+                    ->where(DB::raw('BINARY `komo_username`'), '=', $komo_username)
+                    ->first();
+        return $result;
+    }
+
+
+    static function getKOMOAccountInfoByWallet($wallet_pubkey) {
+        $result = DB::table('tb_account')
+                    ->where(DB::raw('BINARY `wallet_pubkey`'), '=', $wallet_pubkey)
+                    ->first();
+        return $result;
+    }
+
 }
