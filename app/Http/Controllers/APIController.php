@@ -613,4 +613,13 @@ class APIController extends Controller
             echo json_encode($e);
         }
     }
+
+    function getShardTransactionByUsername(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            echo json_encode(APIModel::getShardTransactionByUsername($req->komo_username));
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
 }

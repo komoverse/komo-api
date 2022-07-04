@@ -466,4 +466,11 @@ class APIModel extends Model
                     ->first();
         return $result;
     }
+
+    static function getShardTransactionByUsername($komo_username) {
+        $result = DB::table('tb_shard_tx')
+                    ->where('komo_username', '=', $komo_username)
+                    ->get();
+        return $result;
+    }
 }
