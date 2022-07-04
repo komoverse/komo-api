@@ -583,4 +583,21 @@ class APIController extends Controller
             echo json_encode($e);
         }
     }
+
+    function addShardTransaction(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            if (APIModel::saveShardTransaction($req)) {
+                $status = [
+                    'status' => 'success',
+                ];
+                echo json_encode($status);
+            } else {
+                $status = [
+                    'status' => 'error',
+                ];
+                echo json_encode($status);
+            }
+        }
+    }
 }

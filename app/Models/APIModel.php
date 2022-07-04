@@ -445,4 +445,18 @@ class APIModel extends Model
         return $result;
     }
 
+    static function saveShardTransaction($req) {
+        $insert = DB::table('tb_account')
+                    ->insert([
+                        'komo_username' => $req->komo_username,
+                        'description' => $req->description,
+                        'debit_credit' => $req->debit_credit,
+                        'amount_shard' => $req->amount_shard,
+                        'tx_status' => $req->tx_status,
+                        'custom_param' => $req->custom_param,
+                        'tx_source' => $req->api_key,
+                    ]);
+        return $insert;
+    }
+
 }
