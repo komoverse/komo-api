@@ -587,9 +587,11 @@ class APIController extends Controller
     function addShardTransaction(Request $req) {
         $this->verifyAPIKey($req->api_key);
         try {
-            if (APIModel::saveShardTransaction($req)) {
+            $komo_tx_id = strtoupper(md5($req->username.uniqid()));
+            if (APIModel::saveShardTransaction($req, $komo_tx_id)) {
                 $status = [
                     'status' => 'success',
+                    'komo_tx_id' => $komo_tx_id,
                 ];
                 echo json_encode($status);
             } else {
