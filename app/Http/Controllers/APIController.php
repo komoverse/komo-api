@@ -598,6 +598,8 @@ class APIController extends Controller
                 ];
                 echo json_encode($status);
             }
+        } catch (Exception $e) {
+            echo json_encode($e);
         }
     }
 }
