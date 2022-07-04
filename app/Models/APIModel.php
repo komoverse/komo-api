@@ -469,7 +469,8 @@ class APIModel extends Model
 
     static function getShardTransactionByUsername($komo_username) {
         $result = DB::table('tb_shard_tx')
-                    ->where('komo_username', '=', $komo_username)
+                    ->join('tb_api_key', 'tb_shard_tx.tx_source', '=', 'tb_api_key.api_key')
+                    ->where('tb_shard_tx.komo_username', '=', $komo_username)
                     ->get();
         return $result;
     }
