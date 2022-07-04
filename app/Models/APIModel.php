@@ -460,4 +460,10 @@ class APIModel extends Model
         return $insert;
     }
 
+    static function getShardTransaction($komo_tx_id) {
+        $result = DB::table('tb_shard_tx')
+                    ->where('komo_tx_id', '=', $komo_tx_id)
+                    ->first();
+        return $result;
+    }
 }
