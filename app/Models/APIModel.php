@@ -490,18 +490,14 @@ class APIModel extends Model
     static function addAccountShard($komo_username, $shard) {
         $update = DB::table('tb_account')
                     ->where(DB::raw('BINARY `komo_username`'), '=', $komo_username)
-                    ->update([
-                        'shard' => DB::raw('`shard` + '.$shard)
-                    ]);
+                    ->increment('shard', $shard);
         return $update;
     }
 
     static function subtractAccountShard($komo_username, $shard) {
         $update = DB::table('tb_account')
                     ->where(DB::raw('BINARY `komo_username`'), '=', $komo_username)
-                    ->update([
-                        'shard' => DB::raw('`shard` - '.$shard)
-                    ]);
+                    ->decrement('shard', $shard);
         return $update;
     }
 
