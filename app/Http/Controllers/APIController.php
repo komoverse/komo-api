@@ -642,7 +642,7 @@ class APIController extends Controller
                     }
                 }
             } else {
-                echo "failed";
+                return false;
             }
         } catch (Exception $e) {
             echo json_encode($e);
