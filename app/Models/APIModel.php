@@ -476,4 +476,33 @@ class APIModel extends Model
                     ->get();
         return $result;
     }
+
+    static function updateShardTX($req) {
+        $update = DB::table('tb_shard_tx')
+                    ->where('komo_tx_id', '=', $req->komo_tx_id)
+                    ->update([
+                        'tx_status' => $req->tx_status,
+                        'custom_param' => $req->custom_param,
+                    ]);
+        return $update;
+    }
+
+    static function addAccountShard($komo_username, $shard) {
+        $update = DB::table('tb_account')
+                    ->where(DB::raw('BINARY `komo_username`'), '=', $komo_username)
+                    ->update([
+                        'shard' => DB::raw('`shard` + '.$shard)
+                    ]);
+        return $update;
+    }
+
+    static function subtractAccountShard($komo_username, $shard) {
+        $update = DB::table('tb_account')
+                    ->where(DB::raw('BINARY `komo_username`'), '=', $komo_username)
+                    ->update([
+                        'shard' => DB::raw('`shard` - '.$shard)
+                    ]);
+        return $update;
+    }
+
 }

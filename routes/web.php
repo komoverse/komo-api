@@ -59,6 +59,9 @@ Route::prefix('v1')->group(function(){
     Route::post('save-shard-tx', [APIController::class, 'addShardTransaction']);
     Route::post('get-shard-tx', [APIController::class, 'getShardTransaction']);
     Route::post('get-shard-tx-by-username', [APIController::class, 'getShardTransactionByUsername']);
+    Route::post('update-shard-tx', [APIController::class, 'updateShardTX']);
+
+
     Route::post('add-transaction', [APIController::class, 'addTransaction']);
     Route::get('transaction/nft', [APIController::class, 'getNFTTransactionCount']);
     Route::get('transaction/items', [APIController::class, 'getItemsTransactionCount']);

@@ -622,4 +622,30 @@ class APIController extends Controller
             echo json_encode($e);
         }
     }
+
+    function updateShardTX(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            if (APIModel::updateShardTX($req)) {
+                $tx_data = APIModel::getShardTransaction($req->komo_tx_id);
+                if ($tx_data->debit_credit == 'debit') {
+                    if (APIModel::addAccountShard($tx_data->komo_username, $tx_data->amount_shard)) {
+                        echo "Add SHARD Success";
+                    } else {
+                        echo "Add SHARD Failed";
+                    }
+                } else {
+                    if (APIModel::subtractAccountShard($tx_data->komo_username, $tx_data->amount_shard)) {
+                        echo "Subtract SHARD Success";
+                    } else {
+                        echo "Subtract SHARD Failed";
+                    }
+                }
+            } else {
+                echo "failed";
+            }
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
 }
