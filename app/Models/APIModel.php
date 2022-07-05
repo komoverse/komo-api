@@ -463,6 +463,7 @@ class APIModel extends Model
     static function getShardTransaction($komo_tx_id) {
         $result = DB::table('tb_shard_tx')
                     ->where('komo_tx_id', '=', $komo_tx_id)
+                    ->orderBy('id', 'desc')
                     ->first();
         return $result;
     }
@@ -471,6 +472,7 @@ class APIModel extends Model
         $result = DB::table('tb_shard_tx')
                     ->join('tb_api_key', 'tb_shard_tx.tx_source', '=', 'tb_api_key.api_key')
                     ->where('tb_shard_tx.komo_username', '=', $komo_username)
+                    ->orderBy('tb_shard_tx.id', 'desc')
                     ->get();
         return $result;
     }
