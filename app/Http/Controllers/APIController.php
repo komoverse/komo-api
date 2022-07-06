@@ -630,20 +630,31 @@ class APIController extends Controller
                 $tx_data = APIModel::getShardTransaction($req->komo_tx_id);
                 if ($tx_data->debit_credit == 'debit') {
                     if (APIModel::addAccountShard($tx_data->komo_username, $tx_data->amount_shard)) {
-                        echo "Add SHARD Success";
+                    	$data = [
+                        	'status' => 'Add SHARD Success',
+                    	];
                     } else {
-                        echo "Add SHARD Failed";
+                        $data = [
+                        	'status' => 'Add SHARD Failed',
+                    	];
                     }
                 } else {
                     if (APIModel::subtractAccountShard($tx_data->komo_username, $tx_data->amount_shard)) {
-                        echo "Subtract SHARD Success";
+                        $data = [
+                        	'status' => 'Subtract SHARD Success',
+                    	];
                     } else {
-                        echo "Subtract SHARD Failed";
+                        $data = [
+                        	'status' => 'Subtract SHARD Failed',
+                    	];
                     }
                 }
             } else {
-                return false;
+                        $data = [
+                        	'status' => 'Transaction Not Updated',
+                    	];
             }
+        	echo json_encode($data);
         } catch (Exception $e) {
             echo json_encode($e);
         }
