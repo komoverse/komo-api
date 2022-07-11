@@ -82,4 +82,5 @@ Route::prefix('v1')->group(function(){
     Route::post('topup-shard/idr/qris', [APIController::class, 'topupShardIDRQRIS']);
     Route::post('topup-shard/idr/va', [APIController::class, 'topupShardIDRVA']);
     Route::post('topup-shard/usd/paypal', [APIController::class, 'topupShardUSDPaypal']);
+    Route::post('pay-with-shard', [APIController::class, 'payWithShard']);
 });

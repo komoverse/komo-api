@@ -135,6 +135,7 @@
     <button class="btn btn-success" id="btn-topup-qris">Topup via QRIS</button>
     <button class="btn btn-success" id="btn-topup-va">Topup via VA</button>
     <button class="btn btn-success" id="btn-topup-paypal">Topup via Paypal</button>
+    <button class="btn btn-success" id="btn-pay-with-shard">Pay With SHARD</button>
 
     <span class="showajax"></span>
     <!-- Optional JavaScript -->
@@ -144,6 +145,7 @@
     <script>
       $("#btn-account-info-username").on('click', function(){
         var komo_username = $("input[name=mk_username]").val();
+        var api_key = $("input[name=lb_api_key]").val();
 
         $.ajax({
           url: '{{ url('/') }}/v1/account-info/username',
@@ -151,6 +153,7 @@
           dataType: 'json',
           data: {
             komo_username: komo_username,
+            api_key: api_key,
           },
         })
         .always(function(result) {
@@ -533,6 +536,25 @@
         var komo_username = $("input[name=komo_username]").val();
         $.ajax({
           url: '{{ url('/') }}/v1/topup-shard/usd/paypal',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            amount_shard: shard_amount,
+            api_key: api_key,
+            komo_username: komo_username,
+          },
+        })
+        .always(function(result) {
+          console.log(result);
+        });
+        
+      });
+      $("#btn-pay-with-shard").on('click', function(){
+        var shard_amount = $("input[name=topup_sh_amount]").val();
+        var api_key = $("input[name=lb_api_key]").val();
+        var komo_username = $("input[name=komo_username]").val();
+        $.ajax({
+          url: '{{ url('/') }}/v1/pay-with-shard',
           type: 'POST',
           dataType: 'json',
           data: {

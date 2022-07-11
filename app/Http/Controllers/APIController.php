@@ -762,6 +762,7 @@ class APIController extends Controller
             } else {
                 $data = [
                     'status' => 'error',
+                    'message' => 'Save SHARD Transaction Failed',
                 ];
             }
 
@@ -813,6 +814,7 @@ class APIController extends Controller
             } else {
                 $data = [
                     'status' => 'error',
+                    'message' => 'Save SHARD Transaction Failed',
                 ];
             }
 
@@ -868,6 +870,7 @@ class APIController extends Controller
             } else {
                 $data = [
                     'status' => 'error',
+                    'message' => 'Save SHARD Transaction Failed',
                 ];
             }
 
@@ -876,5 +879,51 @@ class APIController extends Controller
         } catch (Exception $e) {
             echo $json_encode($e);
         }
+    }
+
+    function payWithShard(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            // Get SHARD Amount
+            $userdata = APIModel::getUserFromUsername($req->komo_username);
+            if ($userdata) {
+                if ($userdata->shard > $req->pay_amount) {
+                    // deduct shard
+                    if (APIModel::subtractAccountShard($req->komo_username, $req->amount_shard)) { 
+                        $komo_tx_id = strtoupper(md5($req->username.uniqid()));
+                        $txdata = [
+                            'komo_tx_id' => $komo_tx_id,
+                            'komo_username' => $req->komo_username,
+                            'description' => 'Payment '.$req->amount_shard.' SHARD',
+                            'debit_credit' => 'credit',
+                            'amount_shard' => $req->amount_shard,
+                            'tx_status' => 'success',
+                            'custom_param' => json_encode($req->custom_param),
+                            'tx_source' => $req->api_key,
+                        ];
+                        APIModel::saveShardTransactionByAPI($txdata);
+
+                        $data = [
+                            'status' => 'success',
+                            'message' => 'Deducted '.$req->amount_shard.' SHARD from Account',
+                        ];
+                    } else {
+                        $data = [
+                            'status' => 'error',
+                            'message' => 'Not Enough SHARD To Make This Transaction',
+                        ];
+                    }
+                }
+            } else {
+                $data = [
+                    'status' => 'error',
+                    'message' => 'KOMO Username Not Found',
+                ];
+            }
+            echo json_encode($data);
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+
     }
 }

@@ -516,7 +516,6 @@
                 </table>
 
 
-update-shard-tx
                 {{-- <h2 id="add-gold">Add Gold</h2>
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">

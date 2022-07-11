@@ -524,4 +524,5 @@ class APIModel extends Model
                     ]);
         return $insert;
     }
+
 }
