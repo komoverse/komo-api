@@ -460,6 +460,21 @@ class APIModel extends Model
         return $insert;
     }
 
+    static function saveShardTransactionByAPI($txdata) {
+        $insert = DB::table('tb_shard_tx')
+                    ->insert([
+                        'komo_tx_id' => $txdata['komo_tx_id'],
+                        'komo_username' => $txdata['komo_username'],
+                        'description' => $txdata['description'],
+                        'debit_credit' => $txdata['debit_credit'],
+                        'amount_shard' => $txdata['amount_shard'],
+                        'tx_status' => $txdata['tx_status'],
+                        'custom_param' => $txdata['custom_param'],
+                        'tx_source' => $txdata['tx_source'],
+                    ]);
+        return $insert;
+    }
+
     static function getShardTransaction($komo_tx_id) {
         $result = DB::table('tb_shard_tx')
                     ->where('komo_tx_id', '=', $komo_tx_id)
@@ -501,4 +516,12 @@ class APIModel extends Model
         return $update;
     }
 
+    static function submitCallback($req) {
+        $insert = DB::table('tb_pg_callback')
+                    ->insert([
+                        'payload' => $req->payload,
+                        'source' => $req->api_key,
+                    ]);
+        return $insert;
+    }
 }

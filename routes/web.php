@@ -53,9 +53,9 @@ Route::prefix('v1')->group(function(){
     Route::post('get-inventory', [APIController::class, 'getInventory']);
     Route::post('revoke-inventory', [APIController::class, 'revokeInventory']);
 
-    Route::post('add-gold', [APIController::class, 'addGold']);
-    Route::post('substract-shard', [APIController::class, 'substractShard']);
-    Route::post('add-shard', [APIController::class, 'addShard']);
+    // Route::post('add-gold', [APIController::class, 'addGold']);
+    // Route::post('substract-shard', [APIController::class, 'substractShard']);
+    // Route::post('add-shard', [APIController::class, 'addShard']);
     Route::post('save-shard-tx', [APIController::class, 'addShardTransaction']);
     Route::post('get-shard-tx', [APIController::class, 'getShardTransaction']);
     Route::post('get-shard-tx-by-username', [APIController::class, 'getShardTransactionByUsername']);
@@ -78,4 +78,8 @@ Route::prefix('v1')->group(function(){
     Route::post('match-history/list', [APIController::class, 'listMatchHistory']);
     Route::post('match-history/detail', [APIController::class, 'getMatchDetail']);
 
+    Route::post('callback', [APIController::class, 'submitCallback']);
+    Route::post('topup-shard/idr/qris', [APIController::class, 'topupShardIDRQRIS']);
+    Route::post('topup-shard/idr/va', [APIController::class, 'topupShardIDRVA']);
+    Route::post('topup-shard/usd/paypal', [APIController::class, 'topupShardUSDPaypal']);
 });

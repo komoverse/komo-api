@@ -9,19 +9,62 @@ class APIController extends Controller
 {
     protected $TitleId;
     protected $SecretKey;
+    protected $pg_api_key;
+    protected $pg_account_id;
+    protected $pg_endpoint;
+    protected $pg_header;
+    protected $pg_bank_id;
 
     public function __construct() 
     {
         $this->TitleId = config('playfab.titleId');
         $this->SecretKey = config('playfab.secretKey');
+        $this->pg_api_key = config('payment_gateway.pg_api_key');
+        $this->pg_account_id = config('payment_gateway.pg_account_id');
+        $this->pg_endpoint = config('payment_gateway.pg_endpoint');
+        $this->pg_bank_id = config('payment_gateway.pg_bank_id');
+        $this->pg_header = 'Authorization: Bearer '.config('payment_gateway.pg_api_key');
     }
 
-    function createCURL($endpoint, $header, $data) {
+    function curlPlayfab($endpoint, $header, $data) {
         $url = "https://".$this->TitleId.".playfabapi.com/".$endpoint;
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $send_header = array('Content-Type: application/json');
+        if (isset($header)) {
+            array_push($send_header, $header);
+        }
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $send_header);
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $result = json_decode($response);
+        return $result;
+    }
+
+    function curlPOST($url, $header, $data) {
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $send_header = array('Content-Type: application/json');
+        if (isset($header)) {
+            array_push($send_header, $header);
+        }
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $send_header);
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $result = json_decode($response);
+        return $result;
+    }
+
+    function curlGET($url, $header) {
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_POST, false);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $send_header = array('Content-Type: application/json');
         if (isset($header)) {
@@ -42,7 +85,7 @@ class APIController extends Controller
             "CustomId" => $komo_username,
         ];
 
-        $result = $this->createCURL("Client/LoginWithCustomID", "", $data);
+        $result = $this->curlPlayfab("Client/LoginWithCustomID", "", $data);
 
         return $result;
     }
@@ -53,7 +96,7 @@ class APIController extends Controller
             "CreateAccount" => true,
             "CustomId" => $komo_username,
         ];
-        $result = $this->createCURL("Client/LoginWithCustomID", "", $data);
+        $result = $this->curlPlayfab("Client/LoginWithCustomID", "", $data);
         return $result;
     }
 
@@ -65,7 +108,7 @@ class APIController extends Controller
     //             "ShowDisplayName" => true,
     //         ],
     //     ];
-    //     $result = $this->createCURL("Client/GetAccountInfo", "X-Authorization: ".Session::get('SessionTicket'), $data);
+    //     $result = $this->curlPlayfab("Client/GetAccountInfo", "X-Authorization: ".Session::get('SessionTicket'), $data);
     //     return view('dashboard')->with((array) $result);
     // }
 
@@ -76,7 +119,7 @@ class APIController extends Controller
                 "PlayFabId" => $req->playfab_id,
                 "DisplayName" => $req->display_name,
             ];
-            $result = $this->createCURL("Admin/UpdateUserTitleDisplayName", "X-SecretKey: ".$this->SecretKey, $data);
+            $result = $this->curlPlayfab("Admin/UpdateUserTitleDisplayName", "X-SecretKey: ".$this->SecretKey, $data);
             if ($result) {
                 $response = [
                     "status" => "Change Success",
@@ -109,7 +152,7 @@ class APIController extends Controller
             $data = [
                 "DisplayName" => $try_display_name,
             ];
-            $exec_display_name = $this->createCURL("Client/UpdateUserTitleDisplayName", "X-Authorization: ".$session_ticket, $data);
+            $exec_display_name = $this->curlPlayfab("Client/UpdateUserTitleDisplayName", "X-Authorization: ".$session_ticket, $data);
             if ($exec_display_name->code == 400) {
                 $counter++;
             } else {
@@ -128,7 +171,7 @@ class APIController extends Controller
                 ],
                 "Permission" => "Public",
             ];
-            $result = $this->createCURL("Admin/UpdateUserData", "X-SecretKey: ".$this->SecretKey, $data);
+            $result = $this->curlPlayfab("Admin/UpdateUserData", "X-SecretKey: ".$this->SecretKey, $data);
             if ($result) {
                 $response = [
                     "status" => "Change Success",
@@ -231,7 +274,7 @@ class APIController extends Controller
             $data = [
                 "PlayFabId" => $req->playfab_id,
             ];
-            $result = $this->createCURL("Admin/GetUserAccountInfo", "X-SecretKey: ".$this->SecretKey, $data);
+            $result = $this->curlPlayfab("Admin/GetUserAccountInfo", "X-SecretKey: ".$this->SecretKey, $data);
             echo json_encode($result);
             exit;
         } catch (Exception $e) {
@@ -247,7 +290,7 @@ class APIController extends Controller
                 "ItemIds" => array($req->item_id),
                 "PlayFabId" => $req->playfab_id,
             ];
-            $result = $this->createCURL("Server/GrantItemsToUser", "X-SecretKey: ".$this->SecretKey, $data);
+            $result = $this->curlPlayfab("Server/GrantItemsToUser", "X-SecretKey: ".$this->SecretKey, $data);
             echo json_encode($result);
             exit;
         } catch (Exception $e) {
@@ -286,7 +329,7 @@ class APIController extends Controller
         $data = [
             'PlayFabId' => $req->playfab_id,
         ];
-        $result = $this->createCURL("Server/GetUserInventory", "X-SecretKey: ".$this->SecretKey, $data);
+        $result = $this->curlPlayfab("Server/GetUserInventory", "X-SecretKey: ".$this->SecretKey, $data);
         echo json_encode($result);
     }
 
@@ -297,7 +340,7 @@ class APIController extends Controller
                 'ItemInstanceId' => $req->item_instance_id,
                 'PlayFabId' => $req->playfab_id,
             ];
-            $result = $this->createCURL("Server/RevokeInventoryItem", "X-SecretKey: ".$this->SecretKey, $data);
+            $result = $this->curlPlayfab("Server/RevokeInventoryItem", "X-SecretKey: ".$this->SecretKey, $data);
             echo json_encode($result);
             exit;
         } catch (Exception $e) {
@@ -314,7 +357,7 @@ class APIController extends Controller
                 'PlayFabId' => $req->playfab_id,
                 'VirtualCurrency' => 'GD',
             ];
-            $result = $this->createCURL("Server/AddUserVirtualCurrency", "X-SecretKey: ".$this->SecretKey, $data);
+            $result = $this->curlPlayfab("Server/AddUserVirtualCurrency", "X-SecretKey: ".$this->SecretKey, $data);
             echo json_encode($result);
             exit;
         } catch (Exception $e) {
@@ -330,7 +373,7 @@ class APIController extends Controller
                 'PlayFabId' => $req->playfab_id,
                 'VirtualCurrency' => 'SH',
             ];
-            $result = $this->createCURL("Server/SubtractUserVirtualCurrency", "X-SecretKey: ".$this->SecretKey, $data);
+            $result = $this->curlPlayfab("Server/SubtractUserVirtualCurrency", "X-SecretKey: ".$this->SecretKey, $data);
             echo json_encode($result);
             exit;
         } catch (Exception $e) {
@@ -646,6 +689,181 @@ class APIController extends Controller
             }
         } catch (Exception $e) {
             echo json_encode($e);
+        }
+    }
+
+    function submitCallback(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            if (APIModel::submitCallback($req)) {
+                $data = [
+                    'status' => 'success',
+                ];
+                echo json_encode($data);
+            } else {
+                $data = [
+                    'status' => 'failed',
+                ];
+                echo json_encode($data);
+            }
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
+
+    function topupShardIDRQRIS(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            // Setup TX ID and exchange
+            $komo_tx_id = strtoupper(md5($req->username.uniqid()));
+            $price = (int) $req->amount_shard * 100;
+
+            // Make QRIS Request
+            $data = [
+                'type' => 'qris',
+                'amount' => $price,
+            ];
+            $url = $this->pg_endpoint.'/accounts/'.$this->pg_account_id.'/deposits/requests';
+            $pg_data = $this->curlPOST($url, $this->pg_header, $data);
+
+            // Get QRIS URL
+            $qris_url = $this->pg_endpoint.'/accounts/'.$this->pg_account_id.'/deposits/requests/'.$pg_data->id.'/qr';
+
+            // save to DB
+            $txdata = [
+                'komo_tx_id' => $komo_tx_id,
+                'komo_username' => $req->komo_username,
+                'description' => 'Topup '.$req->amount_shard.' SHARD via IDR (QRIS)',
+                'debit_credit' => 'debit',
+                'amount_shard' => $req->amount_shard,
+                'tx_status' => 'pending',
+                'custom_param' => json_encode($pg_data),
+                'tx_source' => $req->api_key,
+            ];
+            if (APIModel::saveShardTransactionByAPI($txdata)) {
+                $data = [
+                    'status' => 'success',
+                    'currency' => 'IDR',
+                    'price' => $price,
+                    'via' => 'QRIS',
+                    'qris_url' => $qris_url,
+                ];
+            } else {
+                $data = [
+                    'status' => 'error',
+                ];
+            }
+
+            echo json_encode($data);
+
+        } catch (Exception $e) {
+            echo $json_encode($e);
+            
+        }
+    }
+
+    function topupShardIDRVA(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            // Setup TX ID and exchange
+            $komo_tx_id = strtoupper(md5($req->username.uniqid()));
+            $price = (int) $req->amount_shard * 100;
+
+            // Make VA Request
+            $data = [
+                'type' => 'va',
+                'amount' => $price,
+                'bankId' => $this->pg_bank_id,
+            ];
+            $url = $this->pg_endpoint.'/accounts/'.$this->pg_account_id.'/deposits/requests';
+            $pg_data = $this->curlPOST($url, $this->pg_header, $data);
+
+            // save to DB
+            $txdata = [
+                'komo_tx_id' => $komo_tx_id,
+                'komo_username' => $req->komo_username,
+                'description' => 'Topup '.$req->amount_shard.' SHARD via IDR (VA)',
+                'debit_credit' => 'debit',
+                'amount_shard' => $req->amount_shard,
+                'tx_status' => 'pending',
+                'custom_param' => json_encode($pg_data),
+                'tx_source' => $req->api_key,
+            ];
+            if (APIModel::saveShardTransactionByAPI($txdata)) {
+                $data = [
+                    'status' => 'success',
+                    'currency' => 'IDR',
+                    'price' => $price,
+                    'via' => 'VA',
+                    'bank_id' => $pg_data->bankId,
+                    'address_name' => $pg_data->addressName,
+                    'va_number' => $pg_data->address,
+                ];
+            } else {
+                $data = [
+                    'status' => 'error',
+                ];
+            }
+
+            echo json_encode($data);
+
+        } catch (Exception $e) {
+            echo $json_encode($e);
+            
+        }
+    }
+    function topupShardUSDPaypal(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            // Setup TX ID and exchange
+            $komo_tx_id = strtoupper(md5($req->username.uniqid()));
+            $price = (float) $req->amount_shard / 100;
+            
+            // Make paypal request
+            $provider = \PayPal::setProvider();
+            $provider->getAccessToken();
+            $data = json_decode('{
+                "intent": "CAPTURE",
+                "purchase_units": [
+                  {
+                    "amount": {
+                      "currency_code": "USD",
+                      "value": "'.$price.'"
+                    }
+                  }
+                ]
+            }', true);
+            $paypal = $provider->createOrder($data);
+
+            // save to DB
+            $txdata = [
+                'komo_tx_id' => $komo_tx_id,
+                'komo_username' => $req->komo_username,
+                'description' => 'Topup '.$req->amount_shard.' SHARD via USD (Paypal)',
+                'debit_credit' => 'debit',
+                'amount_shard' => $req->amount_shard,
+                'tx_status' => 'pending',
+                'custom_param' => json_encode($paypal),
+                'tx_source' => $req->api_key,
+            ];
+            if (APIModel::saveShardTransactionByAPI($txdata)) {
+                $data = [
+                    'status' => 'success',
+                    'currency' => 'USD',
+                    'price' => $price,
+                    'via' => 'Paypal',
+                    'payment_link' => $paypal['links'][1]['href'],
+                ];
+            } else {
+                $data = [
+                    'status' => 'error',
+                ];
+            }
+
+            echo json_encode($data);
+
+        } catch (Exception $e) {
+            echo $json_encode($e);
         }
     }
 }

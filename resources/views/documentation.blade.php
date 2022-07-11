@@ -76,8 +76,8 @@
                     <li><a href="#add-item-to-inventory">Add Item to Inventory</a></li>
                     <li><a href="#get-inventory">Get Player Inventory</a></li>
                     <li><a href="#revoke-inventory">Revoke Inventory Item</a></li>
-                    <li><a href="#add-gold">Add Gold</a></li>
-                    <li><a href="#substract-shard">Substract Shard</a></li>
+                    {{-- <li><a href="#add-gold">Add Gold</a></li> --}}
+                    {{-- <li><a href="#substract-shard">Substract Shard</a></li> --}}
                 </ul>
                 <b>Leaderboard</b>
                 <ul>
@@ -99,6 +99,13 @@
 {{--                     <li><a href="#transaction-count">Get Transaction Count</a></li>
                     <li><a href="#all-total-sales">Get All Total Sales</a></li>
                     <li><a href="#total-sales">Get Total Sales By Currency</a></li> --}}
+                </ul>
+                <hr>
+                <h3>SHARD Payment Gateway (Web2)</h3>
+                <ul>
+                    <li><a href="#topup-IDR-QRIS">Topup SHARD using IDR via QRIS</a></li>
+                    <li><a href="#topup-IDR-VA">Topup SHARD using IDR via Virtual Account</a></li>
+                    <li><a href="#topup-USD-paypal">Topup SHARD using USD via Paypal</a></li>
                 </ul>
             </div>
             <div class="col-12 col-lg-9 p-3">
@@ -357,7 +364,160 @@
                         </td>
                     </tr>
                 </table>
-                <h2 id="add-gold">Add Gold</h2>
+                {{-- <h2 id="save-shard-tx">Add SHARD Transaction</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/save-shard-tx') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>komo_username</td>
+                        <td>String. KOMO Username.</td>
+                    </tr>
+                    <tr>
+                        <td>description</td>
+                        <td>String. Transaction description.</td>
+                    </tr>
+                    <tr>
+                        <td>debit_credit</td>
+                        <td>Enum. 
+                            <br><i style="color: red">debit</i> to add SHARD
+                            <br><i style="color: red">credit</i> to subtract SHARD
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>amount_shard</td>
+                        <td>Integer. Amount of SHARD to add / subtract.</td>
+                    </tr>
+                    <tr>
+                        <td>tx_status</td>
+                        <td>Enum. Transaction status <i style="color:red">success</i>, <i style="color:red">pending</i>, <i style="color:red">failed</i></td>
+                    </tr>
+                    <tr>
+                        <td>custom_param</td>
+                        <td>String. Custom Parameter.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON. status and transaction ID
+                        </td>
+                    </tr>
+                </table> --}}
+                {{-- <h2 id="update-shard-tx">Add SHARD Transaction</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/update-shard-tx') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>komo_username</td>
+                        <td>String. KOMO Username.</td>
+                    </tr>
+                    <tr>
+                        <td>description</td>
+                        <td>String. Transaction description.</td>
+                    </tr>
+                    <tr>
+                        <td>debit_credit</td>
+                        <td>Enum. 
+                            <br><i style="color: red">debit</i> to add SHARD
+                            <br><i style="color: red">credit</i> to subtract SHARD
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>amount_shard</td>
+                        <td>Integer. Amount of SHARD to add / subtract.</td>
+                    </tr>
+                    <tr>
+                        <td>tx_status</td>
+                        <td>Enum. Transaction status <i style="color:red">success</i>, <i style="color:red">pending</i>, <i style="color:red">failed</i></td>
+                    </tr>
+                    <tr>
+                        <td>custom_param</td>
+                        <td>String. Custom Parameter.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON. status and transaction ID
+                        </td>
+                    </tr>
+                </table> --}}
+                <h2 id="get-shard-tx">Get SHARD Transaction By TX ID</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/get-shard-tx') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>komo_tx_id</td>
+                        <td>String. KOMO SHARD Transaction ID.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON Transaction Details
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="get-shard-tx-by-username">Get SHARD Transaction By Username</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/sget-shard-tx-by-username') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>komo_username</td>
+                        <td>String. KOMO Username.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON Transaction List
+                        </td>
+                    </tr>
+                </table>
+
+
+update-shard-tx
+                {{-- <h2 id="add-gold">Add Gold</h2>
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">
                         <td>POST</td>
@@ -416,7 +576,7 @@
                             JSON playfab response
                         </td>
                     </tr>
-                </table>
+                </table> --}}
                 <h2 id="add-leaderboard">Add Leaderboard Data</h2>
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">
@@ -880,6 +1040,122 @@ For Example
                         </td>
                     </tr>
                 </table> --}}
+
+
+                <br><br>
+                <hr>
+                <br><br>
+
+
+                <h2 id="topup-IDR-QRIS">Topup SHARD using IDR via QRIS</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/topup-shard/idr/qris') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>komo_username</td>
+                        <td>String. KOMO Username.</td>
+                    </tr>
+                    <tr>
+                        <td>amount_shard</td>
+                        <td>Integer. Amount of SHARD.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON response status and QRIS URL<br>
+                            <code>{status: 'success', currency: 'IDR', price: 1000, via: 'QRIS', qris_url: 'https://pg_endpoint/accounts/6d7...a7/requests/58f...0521/qr'}</code>
+                        </td>
+                    </tr>
+                </table>
+
+                <h2 id="topup-IDR-VA">Topup SHARD using IDR via Virtual Account (VA)</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/topup-shard/idr/va') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>komo_username</td>
+                        <td>String. KOMO Username.</td>
+                    </tr>
+                    <tr>
+                        <td>amount_shard</td>
+                        <td>Integer. Amount of SHARD.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON response status and bank VA details<br>
+                            <code>{
+    "status": "success",
+    "currency": "IDR",
+    "price": 1000,
+    "via": "VA",
+    "bank_id": "demo",
+    "address_name": "KMDO Komodo Partners",
+    "va_number": "900....70"
+}</code>
+                        </td>
+                    </tr>
+                </table>
+
+                <h2 id="topup-USD-paypal">Topup SHARD using USD via Paypal</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/topup-shard/usd/paypal') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>komo_username</td>
+                        <td>String. KOMO Username.</td>
+                    </tr>
+                    <tr>
+                        <td>amount_shard</td>
+                        <td>Integer. Amount of SHARD.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON response status and paypal checkout link<br>
+                            <code>{
+    "status": "success",
+    "currency": "USD",
+    "price": 0.1,
+    "via": "Paypal",
+    "payment_link": "https://www.paypal.com/checkoutnow?token=XXXXXXXXXXXXX"
+}</code>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
