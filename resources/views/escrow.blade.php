@@ -23,6 +23,10 @@
 
     <button class="btn btn-info" id="btn-get">Get Escrow NFT</button>
 
+    <br>
+    <button class="btn btn-outline-danger" id="btn-sell">Sell NFT</button>
+    <button class="btn btn-outline-warning" id="btn-unsell">UnSell NFT</button>
+
     <span class="showajax"></span>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -83,6 +87,54 @@
         console.log(api_key);
         $.ajax({
           url: '{{ url('/') }}/v1/escrow-nft/delete',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            komo_username: komo_username,
+            api_key: api_key,
+            nft_id: nft_id,
+            escrow_wallet: escrow_wallet,
+            solana_tx_signature: solana_tx_signature,
+          },
+        })
+        .always(function(result) {
+          console.log(result);
+        });
+      });
+
+      $("#btn-sell").on('click', function(){
+      var komo_username = $("input[name=komo_username]").val();
+      var api_key = $("input[name=lb_api_key]").val();
+      var nft_id = $("input[name=nft_id]").val();
+      var escrow_wallet = $("input[name=escrow_wallet]").val();
+      var solana_tx_signature = $("input[name=solana_tx_signature]").val();
+        console.log(api_key);
+        $.ajax({
+          url: '{{ url('/') }}/v1/escrow-nft/sell',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            komo_username: komo_username,
+            api_key: api_key,
+            nft_id: nft_id,
+            escrow_wallet: escrow_wallet,
+            solana_tx_signature: solana_tx_signature,
+          },
+        })
+        .always(function(result) {
+          console.log(result);
+        });
+      });
+
+      $("#btn-unsell").on('click', function(){
+      var komo_username = $("input[name=komo_username]").val();
+      var api_key = $("input[name=lb_api_key]").val();
+      var nft_id = $("input[name=nft_id]").val();
+      var escrow_wallet = $("input[name=escrow_wallet]").val();
+      var solana_tx_signature = $("input[name=solana_tx_signature]").val();
+        console.log(api_key);
+        $.ajax({
+          url: '{{ url('/') }}/v1/escrow-nft/unsell',
           type: 'POST',
           dataType: 'json',
           data: {

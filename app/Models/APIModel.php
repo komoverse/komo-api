@@ -561,4 +561,33 @@ class APIModel extends Model
                     ]);
         return $insert;
     }
+
+    static function setEscrowNFTToSell($req) {
+        $update = DB::table('tb_web2_nft_ownership_holder')
+                    ->where('holder_komo_username', '=', $req->komo_username)
+                    ->where('nft_id', '=', $req->nft_id)
+                    ->where('ownership_status', '=', 'owned')
+                    ->update([
+                        'ownership_status' => 'on sell'
+                    ]);
+        return $update;
+    }
+
+    static function setEscrowNFTToUnSell($req) {
+        $update = DB::table('tb_web2_nft_ownership_holder')
+                    ->where('holder_komo_username', '=', $req->komo_username)
+                    ->where('nft_id', '=', $req->nft_id)
+                    ->where('ownership_status', '=', 'on sell')
+                    ->update([
+                        'ownership_status' => 'owned'
+                    ]);
+        return $update;
+    }
+
+    static function getWeb2NFTData($req) {
+        $result = DB::table('tb_web2_nft_ownership_holder')
+                    ->where('nft_id', '=', $req->nft_id)
+                    ->first();
+        return $result;
+    }
 }

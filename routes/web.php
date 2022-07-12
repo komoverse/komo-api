@@ -91,6 +91,8 @@ Route::prefix('v1')->group(function(){
     Route::post('escrow-nft/get', [APIController::class, 'getOwnedNFTWeb2']);
     Route::post('escrow-nft/insert', [APIController::class, 'sendFromUserToEscrow']);
     Route::post('escrow-nft/delete', [APIController::class, 'sendFromEscrowToUser']);
+    Route::post('escrow-nft/sell', [APIController::class, 'setEscrowNFTToSell']);
+    Route::post('escrow-nft/unsell', [APIController::class, 'setEscrowNFTToUnSell']);
 
     Route::post('get-nft', [APIController::class, 'getNFTWeb2Web3']);
 });

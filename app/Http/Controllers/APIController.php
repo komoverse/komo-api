@@ -988,4 +988,48 @@ class APIController extends Controller
             echo json_encode($e);
         }
     }
+
+    function setEscrowNFTToSell(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            if (APIModel::setEscrowNFTToSell($req)) {
+                $nftdata = APIModel::getWeb2NFTData($req);
+                $data = [
+                    'status' => 'success',
+                    'message' => 'Success Set Escrow NFT to On Sell',
+                    'nft_data' => $nftdata,
+                ];
+            } else {
+                $data = [
+                    'status' => 'error',
+                    'message' => 'Failed to Set Escrow NFT to Sell',
+                ];
+            }
+            echo json_encode($data);
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
+
+    function setEscrowNFTToUnSell(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            if (APIModel::setEscrowNFTToUnSell($req)) {
+                $nftdata = APIModel::getWeb2NFTData($req);
+                $data = [
+                    'status' => 'success',
+                    'message' => 'Success Set Escrow NFT to Owned',
+                    'nft_data' => $nftdata,
+                ];
+            } else {
+                $data = [
+                    'status' => 'error',
+                    'message' => 'Failed to Set Escrow NFT to Owned',
+                ];
+            }
+            echo json_encode($data);
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
 }

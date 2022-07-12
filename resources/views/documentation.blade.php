@@ -108,6 +108,14 @@
                     <li><a href="#topup-USD-paypal">Topup SHARD using USD via Paypal</a></li>
                     <li><a href="#pay-with-shard">Pay With SHARD</a></li>
                 </ul>
+                <h3>NFT Escrow (Web2)</h3>
+                <ul>
+                    <li><a href="#escrow-get">Get Escrow NFT for Web2 User</h2></a></li>
+                    <li><a href="#escrow-insert">Insert Escrow NFT Data</h2></a></li>
+                    <li><a href="#escrow-delete">Delete Escrow NFT Data</h2></a></li>
+                    <li><a href="#escrow-sell">Set Escrow NFT to "On Sell"</h2></a></li>
+                    <li><a href="#escrow-unsell">Set Escrow NFT to "Owned" / Cancel "On Sell" Status</h2></a></li>
+                </ul>
             </div>
             <div class="col-12 col-lg-9 p-3">
                 <h2 id="register">Register</h2>
@@ -882,7 +890,7 @@ For Example
                     </tr>
                     <tr>
                         <td>currency</td>
-                        <td>String. Currency used for transaction (<i style="color:red">SOL</i>, <i style="color:red">KOMO</i>, <i style="color:red">USD</i>, <i style="color:red">IDR</i>)</td>
+                        <td>String. Currency used for transaction (<i style="color:red">SOL</i>, <i style="color:red">KOMO</i>, <i style="color:red">SHARD</i>)</td>
                     </tr>
                     <tr>
                         <td>custom_param <i>(optional)</i></td>
@@ -1293,6 +1301,70 @@ For Example
                     <tr>
                         <td colspan="2">
                             JSON status
+                        </td>
+                    </tr>
+                </table>
+                
+                <h2 id="escrow-sell">Set Escrow NFT to "On Sell"</h2>
+                <i style="color:red">This only set escrow status to on sell. For adding into marketplace please refer to <a href="#add-transaction">Add Transaction</a></i>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/escrow-nft/sell') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>komo_username</td>
+                        <td>String. KOMO Username.</td>
+                    </tr>
+                    <tr>
+                        <td>nft_id</td>
+                        <td>String. NFT ID.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON status and NFT ownership data
+                        </td>
+                    </tr>
+                </table>
+                
+                <h2 id="escrow-unsell">Set Escrow NFT to "Owned" / Cancel "On Sell" Status</h2>
+                <i style="color:red">This only set escrow status to on sell. For adding into marketplace please refer to <a href="#add-transaction">Add Transaction</a></i>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/escrow-nft/unsell') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>komo_username</td>
+                        <td>String. KOMO Username.</td>
+                    </tr>
+                    <tr>
+                        <td>nft_id</td>
+                        <td>String. NFT ID.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON status and NFT ownership data
                         </td>
                     </tr>
                 </table>
