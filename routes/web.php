@@ -27,6 +27,10 @@ Route::get('test', function(){
     return view('test');
 });
 
+Route::get('escrow', function(){ 
+    return view('escrow');
+});
+
 Route::get('register', function() {
     return view('register');
 });
@@ -83,4 +87,10 @@ Route::prefix('v1')->group(function(){
     Route::post('topup-shard/idr/va', [APIController::class, 'topupShardIDRVA']);
     Route::post('topup-shard/usd/paypal', [APIController::class, 'topupShardUSDPaypal']);
     Route::post('pay-with-shard', [APIController::class, 'payWithShard']);
+
+    Route::post('escrow-nft/get', [APIController::class, 'getOwnedNFTWeb2']);
+    Route::post('escrow-nft/insert', [APIController::class, 'sendFromUserToEscrow']);
+    Route::post('escrow-nft/delete', [APIController::class, 'sendFromEscrowToUser']);
+
+    Route::post('get-nft', [APIController::class, 'getNFTWeb2Web3']);
 });

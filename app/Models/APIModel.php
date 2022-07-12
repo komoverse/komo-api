@@ -525,4 +525,40 @@ class APIModel extends Model
         return $insert;
     }
 
+    static function getOwnedNFTWeb2($komo_username) {
+        $result = DB::table('tb_web2_nft_ownership_holder')
+                    ->where('holder_komo_username', '=', $komo_username)
+                    ->get();
+        return $result;
+    }
+
+    static function insertNFTEscrow($req) {
+        $insert = DB::table('tb_web2_nft_ownership_holder')
+                    ->insert([
+                        'nft_id' => $req->nft_id,
+                        'holder_komo_username' => $req->komo_username,
+                        'ownership_status' => 'owned',
+                        'escrow_wallet' => $req->escrow_wallet,
+                    ]);
+        return $insert;
+    }
+
+    static function removeEscrow($req) {
+        $delete = DB::table('tb_web2_nft_ownership_holder')
+                    ->where('nft_id', '=', $req->nft_id)
+                    ->where('holder_komo_username', '=', $req->komo_username)
+                    ->delete();
+        return $delete;
+    }
+
+    static function saveEscrowIOTraffic($req, $io) {
+        $insert = DB::table('tb_nft_escrow_traffic')
+                    ->insert([
+                        'nft_id' => $req->nft_id,
+                        'escrow_wallet' => $req->escrow_wallet,
+                        'inbound_outbound' => $io,
+                        'solana_tx_signature' => $req->solana_tx_signature,
+                    ]);
+        return $insert;
+    }
 }

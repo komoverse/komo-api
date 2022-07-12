@@ -106,6 +106,7 @@
                     <li><a href="#topup-IDR-QRIS">Topup SHARD using IDR via QRIS</a></li>
                     <li><a href="#topup-IDR-VA">Topup SHARD using IDR via Virtual Account</a></li>
                     <li><a href="#topup-USD-paypal">Topup SHARD using USD via Paypal</a></li>
+                    <li><a href="#pay-with-shard">Pay With SHARD</a></li>
                 </ul>
             </div>
             <div class="col-12 col-lg-9 p-3">
@@ -1152,6 +1153,146 @@ For Example
     "via": "Paypal",
     "payment_link": "https://www.paypal.com/checkoutnow?token=XXXXXXXXXXXXX"
 }</code>
+                        </td>
+                    </tr>
+                </table>
+
+                <h2 id="pay-with-shard">Pay With SHARD</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/pay-with-shard') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>komo_username</td>
+                        <td>String. KOMO Username.</td>
+                    </tr>
+                    <tr>
+                        <td>amount_shard</td>
+                        <td>Integer. Amount of SHARD.</td>
+                    </tr>
+                    <tr>
+                        <td>custom_param <i>(optional)</i></td>
+                        <td>String. Custom parameter for any purpose</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON response status
+                        </td>
+                    </tr>
+                </table>
+
+                <br><br>
+                <hr>
+                <br><br>
+
+
+                <h2 id="escrow-get">Get Escrow NFT for Web2 User</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/escrow-nft/get') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>komo_username</td>
+                        <td>String. KOMO Username.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON list of NFTs owned by given KOMO username
+                        </td>
+                    </tr>
+                </table>
+
+                <h2 id="escrow-insert">Insert Escrow NFT Data</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/escrow-nft/insert') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>komo_username</td>
+                        <td>String. KOMO Username.</td>
+                    </tr>
+                    <tr>
+                        <td>nft_id</td>
+                        <td>String. NFT ID.</td>
+                    </tr>
+                    <tr>
+                        <td>escrow_wallet</td>
+                        <td>String. Company Solana Wallet Pubkey for Escrow.</td>
+                    </tr>
+                    <tr>
+                        <td>solana_tx_signature</td>
+                        <td>String. Transaction Signature Hash.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON status
+                        </td>
+                    </tr>
+                </table>
+                <h2 id="escrow-delete">Delete Escrow NFT Data</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/escrow-nft/delete') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>komo_username</td>
+                        <td>String. KOMO Username.</td>
+                    </tr>
+                    <tr>
+                        <td>nft_id</td>
+                        <td>String. NFT ID.</td>
+                    </tr>
+                    <tr>
+                        <td>solana_tx_signature</td>
+                        <td>String. Transaction Signature Hash.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON status
                         </td>
                     </tr>
                 </table>

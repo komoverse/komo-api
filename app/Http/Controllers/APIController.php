@@ -910,10 +910,15 @@ class APIController extends Controller
                     } else {
                         $data = [
                             'status' => 'error',
+                            'message' => 'Failed to Deduct SHARD',
+                        ];
+                    }
+                } else {
+                        $data = [
+                            'status' => 'error',
                             'message' => 'Not Enough SHARD To Make This Transaction',
                         ];
                     }
-                }
             } else {
                 $data = [
                     'status' => 'error',
@@ -924,6 +929,63 @@ class APIController extends Controller
         } catch (Exception $e) {
             echo json_encode($e);
         }
+    }
 
+    function getOwnedNFTWeb2(Request $req) {
+        echo json_encode(APIModel::getOwnedNFTWeb2($req->komo_username));
+    }
+
+    function sendFromUserToEscrow(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            if (APIModel::insertNFTEscrow($req)) {
+                if (APIModel::saveEscrowIOTraffic($req, 'inbound')) {
+                    $data = [
+                        'status' => 'success',
+                        'message' => 'Insert Escrow Database Success',
+                    ];
+                } else {
+                    $data = [
+                        'status' => 'warning',
+                        'message' => 'Insert Escrow Database Success but TX History Failed',
+                    ];
+                }
+            } else {
+                $data = [
+                    'status' => 'error',
+                    'message' => 'Failed to Insert Escrow Database',
+                ];
+            }
+            echo json_encode($data);
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
+
+    function sendFromEscrowToUser(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            if (APIModel::saveEscrowIOTraffic($req, 'outbound')) {
+                if (APIModel::removeEscrow($req)) {
+                    $data = [
+                        'status' => 'success',
+                        'message' => 'Removal NFT Escrow Database Success',
+                    ];
+                } else {
+                    $data = [
+                        'status' => 'warning',
+                        'message' => 'Removal NFT Escrow Database Success but TX History Failed',
+                    ];
+                }
+            } else {
+                $data = [
+                    'status' => 'error',
+                    'message' => 'Failed to Insert Escrow Database',
+                ];
+            }
+            echo json_encode($data);
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
     }
 }
