@@ -1233,6 +1233,7 @@ For Example
                 </table>
 
                 <h2 id="escrow-insert">Insert Escrow NFT Data</h2>
+                <i style="color:red">This only save NFT data into our database for Web2 user. NFT escrow transaction required on blockchain before calling this API.</i>
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">
                         <td>POST</td>
@@ -1271,6 +1272,7 @@ For Example
                     </tr>
                 </table>
                 <h2 id="escrow-delete">Delete Escrow NFT Data</h2>
+                <i style="color:red">This only remove NFT data from our database for Web2 user. NFT escrow transaction required on blockchain before calling this API.</i>
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">
                         <td>POST</td>
