@@ -501,7 +501,7 @@
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">
                         <td>POST</td>
-                        <td>{{ url('v1/sget-shard-tx-by-username') }}</td>
+                        <td>{{ url('v1/get-shard-tx-by-username') }}</td>
                     </tr>
                     <tr class="request">
                         <td colspan="2">Request</td>
