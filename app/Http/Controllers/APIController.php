@@ -627,6 +627,15 @@ class APIController extends Controller
         }
     }
 
+    function getKOMOAccountInfoByEmail(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            echo json_encode(APIModel::getKOMOAccountInfoByEmail($req->email));
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
+
     function addShardTransaction(Request $req) {
         $this->verifyAPIKey($req->api_key);
         try {

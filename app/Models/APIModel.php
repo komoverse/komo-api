@@ -445,6 +445,14 @@ class APIModel extends Model
         return $result;
     }
 
+
+    static function getKOMOAccountInfoByEmail($email) {
+        $result = DB::table('tb_account')
+                    ->where(DB::raw('BINARY `email`'), '=', $email)
+                    ->first();
+        return $result;
+    }
+
     static function saveShardTransaction($req, $komo_tx_id) {
         $insert = DB::table('tb_shard_tx')
                     ->insert([

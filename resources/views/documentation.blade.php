@@ -855,6 +855,33 @@ For Example
                         </td>
                     </tr>
                 </table>
+
+                <h2 id="get-account-from-email">Get Account Info From Email</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/account-info/email') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>email</td>
+                        <td>String. Email Address.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON response contains account info
+                        </td>
+                    </tr>
+                </table>
                 <h2 id="add-transaction">Add Transaction</h2>
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">

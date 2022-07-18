@@ -126,6 +126,8 @@
     <button class="btn btn-success" id="btn-account-info-username">Get From Username</button>
     <input type="text" name="mk_wallet">
     <button class="btn btn-success" id="btn-account-info-wallet">Get From Wallet</button>
+    <input type="text" name="mk_email">
+    <button class="btn btn-success" id="btn-account-info-email">Get From Email</button>
 
     <br>
     <br>
@@ -189,6 +191,7 @@
 
       $("#btn-account-info-wallet").on('click', function(){
         var wallet_pubkey = $("input[name=mk_wallet]").val();
+        var api_key = $("input[name=lb_api_key]").val();
 
         $.ajax({
           url: '{{ url('/') }}/v1/account-info/wallet',
@@ -196,6 +199,25 @@
           dataType: 'json',
           data: {
             wallet_pubkey: wallet_pubkey,
+            api_key: api_key,
+          },
+        })
+        .always(function(result) {
+          console.log(result);
+        });
+      });
+
+      $("#btn-account-info-email").on('click', function(){
+        var email = $("input[name=mk_email]").val();
+        var api_key = $("input[name=lb_api_key]").val();
+
+        $.ajax({
+          url: '{{ url('/') }}/v1/account-info/email',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            email: email,
+            api_key: api_key,
           },
         })
         .always(function(result) {
