@@ -92,6 +92,7 @@
                 <ul>
                     <li><a href="#get-account-from-username">Get Account Info From Username</a></li>
                     <li><a href="#get-account-from-wallet">Get Account Info From Wallet Pubkey</a></li>
+                    <li><a href="#get-account-from-email">Get Account Info From Email</a></li>
                     <li><a href="#add-transaction">Add Transaction</a></li>
                     <li><a href="#get-transaction">Get Transaction (by Date)</a></li>
                     <li><a href="#get-tx-by-wallet">Get Transaction (by Wallet)</a></li>
