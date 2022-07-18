@@ -82,7 +82,6 @@ Route::prefix('v1')->group(function(){
     Route::post('match-history/list', [APIController::class, 'listMatchHistory']);
     Route::post('match-history/detail', [APIController::class, 'getMatchDetail']);
 
-    Route::post('callback', [APIController::class, 'submitCallback']);
     Route::post('topup-shard/idr/qris', [APIController::class, 'topupShardIDRQRIS']);
     Route::post('topup-shard/idr/va', [APIController::class, 'topupShardIDRVA']);
     Route::post('topup-shard/usd/paypal', [APIController::class, 'topupShardUSDPaypal']);
@@ -95,4 +94,7 @@ Route::prefix('v1')->group(function(){
     Route::post('escrow-nft/unsell', [APIController::class, 'setEscrowNFTToUnSell']);
 
     Route::post('get-nft', [APIController::class, 'getNFTWeb2Web3']);
+    
+
+    Route::post('payment-callback', [APIController::class, 'submitCallback']);
 });

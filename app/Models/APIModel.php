@@ -129,7 +129,7 @@ class APIModel extends Model
 
     static function saveDailyLeaderboard($req) {
         // check if table exist
-        $tablename = 'tb_leaderboard_daily_'.date('Y_m_d');
+        $tablename = 'zzz_leaderboard_daily_'.date('Y_m_d');
         if (!Schema::hasTable($tablename)) {
             DB::statement('CREATE TABLE '.$tablename.' LIKE tb_leaderboard_template');
         }
@@ -167,7 +167,7 @@ class APIModel extends Model
 
     static function saveWeeklyLeaderboard($req) {
         // check if table exist
-        $tablename = 'tb_leaderboard_weekly_'.date('Y_W');
+        $tablename = 'zzz_leaderboard_weekly_'.date('Y_W');
         if (!Schema::hasTable($tablename)) {
             DB::statement('CREATE TABLE '.$tablename.' LIKE tb_leaderboard_template');
         }
@@ -205,7 +205,7 @@ class APIModel extends Model
 
     static function saveMonthlyLeaderboard($req) {
         // check if table exist
-        $tablename = 'tb_leaderboard_monthly_'.date('Y_m');
+        $tablename = 'zzz_leaderboard_monthly_'.date('Y_m');
         if (!Schema::hasTable($tablename)) {
             DB::statement('CREATE TABLE '.$tablename.' LIKE tb_leaderboard_template');
         }
@@ -242,7 +242,7 @@ class APIModel extends Model
 
 
     static function saveLifetimeLeaderboard($req) {
-        $tablename = 'tb_leaderboard_lifetime';
+        $tablename = 'zzz_leaderboard_lifetime';
         // get player current EXP, add new record if not exist
         $exp = 0;
         $playerdata = DB::table($tablename)
@@ -276,9 +276,9 @@ class APIModel extends Model
 
     static function getLeaderboard($req) {
         if ($req->type == 'lifetime') {
-            $tablename = 'tb_leaderboard_lifetime';
+            $tablename = 'zzz_leaderboard_lifetime';
         } else {
-            $tablename = 'tb_leaderboard_'.strtolower($req->type).'_'.str_replace('-', '_', $req->parameter);
+            $tablename = 'zzz_leaderboard_'.strtolower($req->type).'_'.str_replace('-', '_', $req->parameter);
         }
         if (Schema::hasTable($tablename)) {
             $result = DB::table($tablename)
@@ -520,7 +520,6 @@ class APIModel extends Model
         $insert = DB::table('tb_pg_callback')
                     ->insert([
                         'payload' => $req->payload,
-                        'source' => $req->api_key,
                     ]);
         return $insert;
     }

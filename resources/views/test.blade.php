@@ -137,12 +137,38 @@
     <button class="btn btn-success" id="btn-topup-paypal">Topup via Paypal</button>
     <button class="btn btn-success" id="btn-pay-with-shard">Pay With SHARD</button>
 
+
+    <br>
+    <br>
+    <br>
+
+    <textarea name="payload" id="" cols="30" rows="10"></textarea>
+    <button class="btn btn-success" id="btn-submit-callback">Submit Callback</button>
+
     <span class="showajax"></span>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script>
+
+      
+      $("#btn-submit-callback").on('click', function(){
+        var payload = $("textarea[name=payload]").val();
+        $.ajax({
+          url: '{{ url('/') }}/v1/payment-callback',
+          type: 'POST',
+          dataType: 'json',
+          data: {
+            payload: payload,
+          },
+        })
+        .always(function(result) {
+          console.log(result);
+        });
+      });
+
+      
       $("#btn-account-info-username").on('click', function(){
         var komo_username = $("input[name=mk_username]").val();
         var api_key = $("input[name=lb_api_key]").val();

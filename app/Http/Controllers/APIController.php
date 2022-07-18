@@ -704,19 +704,17 @@ class APIController extends Controller
     }
 
     function submitCallback(Request $req) {
-        $this->verifyAPIKey($req->api_key);
         try {
             if (APIModel::submitCallback($req)) {
                 $data = [
                     'status' => 'success',
                 ];
-                echo json_encode($data);
             } else {
                 $data = [
                     'status' => 'failed',
                 ];
-                echo json_encode($data);
             }
+            echo json_encode($data);
         } catch (Exception $e) {
             echo json_encode($e);
         }
