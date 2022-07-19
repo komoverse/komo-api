@@ -598,4 +598,13 @@ class APIModel extends Model
                     ->first();
         return $result;
     }
+
+    static function addPPToDatabase($komo_username, $file_url) {
+        $update = DB::table('tb_account')
+                    ->where('komo_username', '=', $komo_username)
+                    ->update([
+                        'profile_picture_url' => $file_url,
+                    ]);
+        return $update;
+    }
 }
