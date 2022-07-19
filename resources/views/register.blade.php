@@ -30,7 +30,8 @@
             Email
             <input type="email" name="email" class="form-control mb-2">
             <!-- All countries -->
-<select id="country" name="country">
+            Country
+<select id="country" class="form-select mb-2" name="country">
     <option>country</option>
     <option value="AFG">Afghanistan</option>
     <option value="ALA">Aland Islands</option>
