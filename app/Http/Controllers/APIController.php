@@ -1050,43 +1050,12 @@ class APIController extends Controller
     function changeProfilePicture(Request $req) {
         $this->verifyAPIKey($req->api_key);
         try {
-            $file = $req->profile_picture;
-            if ($file->isValid()) {
-                $path = base_path() . '/public/uploads/profile_pic';
-                $file_name = $req->komo_username;
-
-                // Create thumb for images
-                $images_ext  = ['jpg', 'jpeg', 'png', 'bmp'];
-                if (in_array(strtolower($file->getClientOriginalExtension()), $images_ext)) {
-                    $img = Image::make($file)
-                                ->encode('jpeg', 80)
-                                ->resize(500, null, function ($constraint) {
-                                    $constraint->aspectRatio();
-                                    $constraint->upsize();
-                                })
-                                ->save($path.'/'.$file_name.'.jpg');
-                    $thumbs = Image::make($file)
-                                ->encode('jpeg', 60)
-                                ->resize(null, 100, function ($constraint) {
-                                    $constraint->aspectRatio();
-                                })
-                                ->save($path.'/thumbs/'.$file_name.'.jpg');
-
-                    $file_url = url('/').$path.'/'.$file_name.'.jpg';
-
-                    if (APIModel::addPPToDatabase($req->komo_username, $file_url)) {
-                        $data = [
-                            'status' => 'success',
-                            'message' => 'Upload successful',
-                            'pp_url' => $file_url,
-                        ];
-                    }
-                } else {
-                    $data = [
-                        'status' => 'error',
-                        'message' => 'This type of file is not supported. jpg, jpeg, png, bmp only',
-                    ];
-                }
+            if (APIModel::addPPToDatabase($req->komo_username, $req->profile_picture_url)) {
+                $data = [
+                    'status' => 'success',
+                    'message' => 'Upload successful',
+                    'pp_url' => $req->profile_picture_url,
+                ];
             } else {
                 $data = [
                     'status' => 'error',
