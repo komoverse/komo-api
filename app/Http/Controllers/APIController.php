@@ -190,7 +190,6 @@ class APIController extends Controller
 
     function register(Request $req) {
         try {
-            
             // Check existing KOMO account
             if (APIModel::getUserFromUsername($req->komo_username)) {
                 $response = [
@@ -218,6 +217,11 @@ class APIController extends Controller
                             'message' => 'Registration Failed',
                         ];
                     }
+                } else {
+                    $response = [
+                        'status' => 'error',
+                        'message' => 'Error creating playfab account',
+                    ];
                 }
             }
             // Return registration result
