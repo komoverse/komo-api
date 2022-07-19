@@ -339,6 +339,7 @@
         var confirm_password = $("input[name=confirm_password]").val();
         var email = $("input[name=email]").val();
         var wallet_pubkey = $("input[name=wallet_pubkey]").val();
+        var country = $("select[name=country]").find('option:selected').val();
 
         if (password == confirm_password) {
 
@@ -351,6 +352,7 @@
               password: password,
               email: email,
               wallet_pubkey: wallet_pubkey,
+              country: country,
             },
           })
           .always(function(result) {
