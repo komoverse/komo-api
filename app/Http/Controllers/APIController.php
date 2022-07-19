@@ -1059,7 +1059,7 @@ class APIController extends Controller
             } else {
                 $data = [
                     'status' => 'error',
-                    'message' => 'Cannot verify file',
+                    'message' => 'Failed to save database',
                 ];
             }
             echo json_encode($data);
