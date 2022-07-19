@@ -1051,6 +1051,13 @@ class APIController extends Controller
         $this->verifyAPIKey($req->api_key);
         try {
             if (APIModel::addPPToDatabase($req->komo_username, $req->profile_picture_url)) {
+
+                $pfdata = [
+                    "PlayFabId" => $req->playfab_id,
+                    "ImageUrl" => $req->profile_picture_url,
+                ];
+                $result = $this->curlPlayfab("Server/UpdateAvatarUrl", "X-SecretKey: ".$this->SecretKey, $pfdata);
+
                 $data = [
                     'status' => 'success',
                     'message' => 'Upload successful',
