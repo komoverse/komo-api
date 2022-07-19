@@ -22,6 +22,7 @@ class APIModel extends Model
                         'in_game_display_name' => $display_name,
                         'wallet_pubkey' => $req->wallet_pubkey,
                         'email' => $req->email,
+                        'country' => $req->country,
                     ]);
         return $insert;
     }

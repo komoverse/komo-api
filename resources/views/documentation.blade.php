@@ -141,6 +141,10 @@
                         <td>String. Email address.</td>
                     </tr>
                     <tr>
+                        <td>country</td>
+                        <td>String. 3 letter ISO alpha 3 code.</td>
+                    </tr>
+                    <tr>
                         <td>wallet_pubkey <i>(optional)</i></td>
                         <td>String. Phantom wallet public key.</td>
                     </tr>
