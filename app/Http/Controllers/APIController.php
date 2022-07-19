@@ -194,7 +194,8 @@ class APIController extends Controller
             // Check existing KOMO account
             if (APIModel::getUserFromUsername($req->komo_username)) {
                 $response = [
-                    'status' => 'Username Taken',
+                    'status' => 'error',
+                    'message' => 'Username Taken',
                 ];
             } else {
                 // Register PLayfab
@@ -208,11 +209,13 @@ class APIController extends Controller
                     // Save to KOMO Database
                     if (APIModel::registerKOMO($req, $playfab_id, $display_name)) {
                         $response = [
-                            'status' => 'Registration Success',
+                            'status' => 'success',
+                            'message' => 'Registration Success',
                         ];
                     } else {
                         $response = [
-                            'status' => 'Registration Failed',
+                            'status' => 'error',
+                            'message' => 'Registration Failed',
                         ];
                     }
                 }
