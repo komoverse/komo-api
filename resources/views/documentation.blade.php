@@ -93,6 +93,7 @@
                     <li><a href="#get-account-from-username">Get Account Info From Username</a></li>
                     <li><a href="#get-account-from-wallet">Get Account Info From Wallet Pubkey</a></li>
                     <li><a href="#get-account-from-email">Get Account Info From Email</a></li>
+                    <li><a href="#find-account">Find Account by Username, Wallet, or Email</a></li>
                     <li><a href="#add-transaction">Add Transaction</a></li>
                     <li><a href="#get-transaction">Get Transaction (by Date)</a></li>
                     <li><a href="#get-tx-by-wallet">Get Transaction (by Wallet)</a></li>
@@ -887,6 +888,36 @@ For Example
                         </td>
                     </tr>
                 </table>
+
+                <h2 id="find-account">Find Account by Username, Wallet, or Email</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/account-info/find') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>find_query</td>
+                        <td>String. KOMO Username, Wallet, or Email Address.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            JSON response contains account info
+                        </td>
+                    </tr>
+                </table>
+
+
+
                 <h2 id="add-transaction">Add Transaction</h2>
                 <table class="table table-bordered table-sm">
                     <tr class="endpoint">
