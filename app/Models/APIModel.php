@@ -627,4 +627,13 @@ class APIModel extends Model
                     ]);
         return $update;
     }
+
+    static function changeGameNotification($req) {
+        $update = DB::table('tb_account')
+                    ->where('komo_username', '=', $req->komo_username)
+                    ->update([
+                        'game_newsletter_subscribe' => $req->game_newsletter_subscribe,
+                    ]);
+        return $update;
+    }
 }

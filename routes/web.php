@@ -57,6 +57,7 @@ Route::prefix('v1')->group(function(){
     Route::get('player-list', [APIController::class, 'getAllPlayer']);
 
     Route::post('change-pp', [APIController::class, 'changeProfilePicture']);
+    Route::post('change-game-notif', [APIController::class, 'changeGameNotification']);
 
     Route::post('add-item-to-inventory', [APIController::class, 'addItemToInventory']);
     Route::post('get-inventory', [APIController::class, 'getInventory']);

@@ -1103,4 +1103,24 @@ class APIController extends Controller
             echo json_encode($e);
         }
     }
+
+    function changeGameNotification(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            if (APIModel::changeGameNotification($req)) {
+                $data = [
+                    'status' => 'success',
+                    'message' => 'Change Game Notification Success',
+                ];
+            } else {
+                $data = [
+                    'status' => 'error',
+                    'message' => 'Change Game Notification Failed',
+                ];
+            }
+            echo json_encode($data);
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }   
+    }
 }

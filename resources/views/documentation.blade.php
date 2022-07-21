@@ -71,6 +71,7 @@
                     <li><a href="#change-password">Change Password</a></li>
                     <li><a href="#reset-password">Reset Password</a></li>
                     <li><a href="#change-display-name">Change Display Name</a></li>
+                    <li><a href="#change-game-notif">Game Update Notification via Email</a></li>
                 </ul>
                 <b>Inventory & Economics</b>
                 <ul>
@@ -324,6 +325,37 @@
                             status: Change Success, Change Failed
                             <br>
                             display_name: New Display Name
+                        </td>
+                    </tr>
+                </table>
+
+                <h2 id="change-game-notif">Game Update Notification via Email</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/change-game-notif') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>komo_username</td>
+                        <td>String. KOMO Username.</td>
+                    </tr>
+                    <tr>
+                        <td>game_newsletter_subscribe</td>
+                        <td>Integer. <span class="red">0</span> to disable. <span class="red">1</span> to enable.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            status: Change Success, Change Failed
                         </td>
                     </tr>
                 </table>
