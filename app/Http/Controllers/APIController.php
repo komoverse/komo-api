@@ -643,6 +643,15 @@ class APIController extends Controller
         }
     }
 
+    function getKOMOAccountInfoByFind(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            echo json_encode(APIModel::getKOMOAccountInfoByFind($req->find_query));
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
+
     function addShardTransaction(Request $req) {
         $this->verifyAPIKey($req->api_key);
         try {

@@ -454,6 +454,15 @@ class APIModel extends Model
         return $result;
     }
 
+    static function getKOMOAccountInfoByFind($find_query) {
+        $result = DB::table('tb_account')
+                    ->where(DB::raw('BINARY `komo_username`'), '=', $find_query)
+                    ->orWhere(DB::raw('BINARY `wallet_pubkey`'), '=', $find_query)
+                    ->orWhere(DB::raw('BINARY `email`'), '=', $find_query)
+                    ->first();
+        return $result;
+    }
+
     static function saveShardTransaction($req, $komo_tx_id) {
         $insert = DB::table('tb_shard_tx')
                     ->insert([
