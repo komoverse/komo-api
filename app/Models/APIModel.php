@@ -581,7 +581,7 @@ class APIModel extends Model
 
     static function setEscrowNFTToSell($req) {
         $update = DB::table('tb_web2_nft_ownership_holder')
-                    ->where('holder_komo_username', '=', $req->komo_username)
+                    ->where(DB::raw('BINARY `holder_komo_username`'), '=', $req->komo_username)
                     ->where('nft_id', '=', $req->nft_id)
                     ->where('ownership_status', '=', 'owned')
                     ->update([
@@ -592,7 +592,7 @@ class APIModel extends Model
 
     static function setEscrowNFTToUnSell($req) {
         $update = DB::table('tb_web2_nft_ownership_holder')
-                    ->where('holder_komo_username', '=', $req->komo_username)
+                    ->where(DB::raw('BINARY `holder_komo_username`'), '=', $req->komo_username)
                     ->where('nft_id', '=', $req->nft_id)
                     ->where('ownership_status', '=', 'on sell')
                     ->update([
@@ -610,7 +610,7 @@ class APIModel extends Model
 
     static function addPPToDatabase($komo_username, $file_url) {
         $update = DB::table('tb_account')
-                    ->where('komo_username', '=', $komo_username)
+                    ->where(DB::raw('BINARY `komo_username`'), '=', $req->komo_username)
                     ->update([
                         'profile_picture_url' => $file_url,
                     ]);
@@ -630,7 +630,7 @@ class APIModel extends Model
 
     static function changeGameNotification($req) {
         $update = DB::table('tb_account')
-                    ->where('komo_username', '=', $req->komo_username)
+                    ->where(DB::raw('BINARY `komo_username`'), '=', $req->komo_username)
                     ->update([
                         'game_newsletter_subscribe' => $req->game_newsletter_subscribe,
                     ]);
