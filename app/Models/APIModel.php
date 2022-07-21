@@ -616,4 +616,15 @@ class APIModel extends Model
                     ]);
         return $update;
     }
+
+    static function resetKOMOPassword($req) {
+        $salt_gen = md5(uniqid());
+        $update = DB::table('tb_account')
+                    ->where('password', '=', $req->hash)
+                    ->update([
+                        'salt' => $salt_gen,
+                        'password' => md5($req->new_password.$salt_gen),
+                    ]);
+        return $update;
+    }
 }

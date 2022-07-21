@@ -1083,4 +1083,24 @@ class APIController extends Controller
             echo json_encode($e);
         }
     }
+
+    function resetKOMOPassword(Request $req) {
+        $this->verifyAPIKey($req->api_key);
+        try {
+            if (APIModel::resetKOMOPassword($req)) {
+                $data = [
+                    'status' => 'success',
+                    'message' => 'Reset Password Success',
+                ];
+            } else {
+                $data = [
+                    'status' => 'error',
+                    'message' => 'Reset Password Failed',
+                ];
+            }
+            echo json_encode($data);
+        } catch (Exception $e) {
+            echo json_encode($e);
+        }
+    }
 }

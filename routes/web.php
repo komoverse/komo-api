@@ -53,6 +53,7 @@ Route::prefix('v1')->group(function(){
     Route::post('account-info/email', [APIController::class, 'getKOMOAccountInfoByEmail']);
     Route::post('account-info/find', [APIController::class, 'getKOMOAccountInfoByFind']);
     Route::post('change-password', [APIController::class, 'changeKOMOPassword']);
+    Route::post('reset-password', [APIController::class, 'resetKOMOPassword']);
     Route::get('player-list', [APIController::class, 'getAllPlayer']);
 
     Route::post('change-pp', [APIController::class, 'changeProfilePicture']);
