@@ -69,6 +69,7 @@
                     <li><a href="#get-all-players">Get All Players</a></li>
                     <li><a href="#get-account-info">Get Account Info</a></li>
                     <li><a href="#change-password">Change Password</a></li>
+                    <li><a href="#reset-password">Reset Password</a></li>
                     <li><a href="#change-display-name">Change Display Name</a></li>
                 </ul>
                 <b>Inventory & Economics</b>
@@ -259,6 +260,37 @@
                     <tr>
                         <td colspan="2">
                             status: New Password Set, Failed to set new password, Old password not match with database
+                        </td>
+                    </tr>
+                </table>
+
+                <h2 id="reset-password">Reset Password</h2>
+                <table class="table table-bordered table-sm">
+                    <tr class="endpoint">
+                        <td>POST</td>
+                        <td>{{ url('v1/reset-password') }}</td>
+                    </tr>
+                    <tr class="request">
+                        <td colspan="2">Request</td>
+                    </tr>
+                    <tr>
+                        <td>api_key</td>
+                        <td>String. API Key for authentication.</td>
+                    </tr>
+                    <tr>
+                        <td>hash</td>
+                        <td>String. Hashed old password.</td>
+                    </tr>
+                    <tr>
+                        <td>new_password</td>
+                        <td>String. New password.</td>
+                    </tr>
+                    <tr class="response">
+                        <td colspan="2">Response</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            status: success or failed
                         </td>
                     </tr>
                 </table>
