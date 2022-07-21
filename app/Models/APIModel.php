@@ -528,7 +528,7 @@ class APIModel extends Model
     static function submitCallback($req) {
         $insert = DB::table('tb_pg_callback')
                     ->insert([
-                        'payload' => $req->payload,
+                        'payload' => $req->json,
                     ]);
         return $insert;
     }
