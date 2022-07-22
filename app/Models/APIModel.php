@@ -610,7 +610,7 @@ class APIModel extends Model
 
     static function addPPToDatabase($komo_username, $file_url) {
         $update = DB::table('tb_account')
-                    ->where(DB::raw('BINARY `komo_username`'), '=', $req->komo_username)
+                    ->where(DB::raw('BINARY `komo_username`'), '=', $komo_username)
                     ->update([
                         'profile_picture_url' => $file_url,
                     ]);
